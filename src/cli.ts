@@ -11,19 +11,23 @@ import { FrameworkDetector } from './core/FrameworkDetector';
 const argv = yargs
   .scriptName('flow')
   .usage('$0 <command> [options]')
+  .example('$0 generate --input ./src/controllers --output ./docs', 'Analyze API controllers')
+  .example('$0 generate --input ./src/components --format mermaid', 'Generate React component workflows')
+  .example('$0 analyze --input ./src --verbose', 'Analyze entire project structure')
+  .example('$0 detect --input ./src', 'Detect frameworks in your project')
   .command('generate', 'Generate workflow files from any project', (yargs) => {
     return yargs
       .option('input', {
         alias: 'i',
         type: 'string',
-        description: 'Input path to project directory',
+        description: 'Input path to project directory (e.g., ./src, ./controllers, ./components)',
         default: './src',
         demandOption: true
       })
       .option('output', {
         alias: 'o',
         type: 'string',
-        description: 'Output directory for generated files',
+        description: 'Output directory for generated files (e.g., ./docs, ./workflows)',
         default: './workflows',
         demandOption: true
       })

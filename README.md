@@ -46,20 +46,29 @@ npx flow generate --input ./src --output ./workflows
 
 ## 🎯 Quick Start
 
-### Basic Usage
+### Real-World Examples
 
 ```bash
-# Generate workflows for any project
-flow generate --input ./src --output ./workflows
+# 🏪 E-commerce API Analysis
+flow generate --input ./src/controllers --output ./docs/api-workflows --format mermaid
 
-# Analyze project without generating files
-flow analyze --input ./src
+# ⚛️ React Component Workflows  
+flow generate --input ./src/components --output ./docs/component-workflows --format all
 
-# Detect frameworks and languages
+# 📧 Scheduled Tasks & Background Jobs
+flow generate --input ./src/jobs --output ./docs/scheduled-workflows --format json
+
+# 🔌 Third-party API Integrations
+flow generate --input ./src/services --output ./docs/integration-workflows --format mermaid
+
+# 🗄️ Database Operations
+flow generate --input ./src/models --output ./docs/db-workflows --include-database
+
+# 📊 Project Analysis
+flow analyze --input ./src --verbose
+
+# 🔍 Framework Detection
 flow detect --input ./src
-
-# Get optimization suggestions
-flow optimize --input ./src --output ./optimization-report
 ```
 
 ### Advanced Usage
@@ -150,58 +159,146 @@ Each major operation has its own dedicated task core for maximum efficiency:
 - Analyzes services, components, and modules
 - Identifies Angular-specific patterns
 
-## 📊 Output Examples
+## 📊 Real-World Output Examples
 
-### JSON Output
+### E-commerce User Registration Flow
+**Command:** `flow generate --input ./src/controllers/UserController.ts --output ./docs --format json`
+
 ```json
 {
   "workflows": [
     {
-      "id": "UserController_createUser",
-      "name": "UserController::createUser",
-      "description": "Workflow for creating a new user",
+      "id": "UserController_register",
+      "name": "User Registration Workflow",
+      "description": "Complete user registration process with validation and email verification",
       "framework": "nodejs",
       "nodes": [
         {
-          "id": "node_1",
-          "type": "start",
-          "label": "Start",
-          "description": "Entry point for createUser"
+          "id": "start",
+          "type": "api_endpoint",
+          "label": "POST /api/users/register",
+          "description": "User registration endpoint"
         },
         {
-          "id": "node_2",
+          "id": "validate_email",
           "type": "validation",
-          "label": "Validation",
-          "description": "Input validation"
+          "label": "Email Validation",
+          "description": "Check email format and uniqueness"
+        },
+        {
+          "id": "hash_password",
+          "type": "security",
+          "label": "Password Hashing",
+          "description": "bcrypt password hashing"
+        },
+        {
+          "id": "create_user",
+          "type": "database",
+          "label": "Create User Record",
+          "description": "INSERT INTO users table"
+        },
+        {
+          "id": "send_email",
+          "type": "external_service",
+          "label": "Send Welcome Email",
+          "description": "SendGrid email service"
         }
       ],
       "edges": [
         {
-          "id": "edge_1",
-          "source": "node_1",
-          "target": "node_2",
+          "id": "start_to_validate",
+          "source": "start",
+          "target": "validate_email",
           "label": "Validate input"
+        },
+        {
+          "id": "validate_to_hash",
+          "source": "validate_email",
+          "target": "hash_password",
+          "label": "Email valid"
+        },
+        {
+          "id": "hash_to_create",
+          "source": "hash_password",
+          "target": "create_user",
+          "label": "Password hashed"
+        },
+        {
+          "id": "create_to_email",
+          "source": "create_user",
+          "target": "send_email",
+          "label": "User created"
         }
       ]
     }
   ],
   "statistics": {
-    "totalComponents": 15,
-    "totalMethods": 45,
-    "frameworks": { "nodejs": 10, "react": 5 },
-    "languages": { "typescript": 12, "javascript": 3 }
+    "totalControllers": 8,
+    "totalEndpoints": 24,
+    "frameworks": { "nodejs": 8, "express": 8 },
+    "languages": { "typescript": 8 }
   }
 }
 ```
 
-### Mermaid Diagram
+### Visual Mermaid Diagram
+**Command:** `flow generate --input ./src/controllers --output ./docs --format mermaid`
+
 ```mermaid
 graph TD
-    A[Start] --> B[Validation]
-    B --> C[Database Query]
-    C --> D[API Call]
-    D --> E[Process Data]
-    E --> F[End]
+    A[POST /api/users/register] --> B[Validate Email Format]
+    B --> C[Check Email Exists]
+    C --> D[Hash Password with bcrypt]
+    D --> E[Create User in Database]
+    E --> F[Send Welcome Email via SendGrid]
+    F --> G[Return User Data]
+    
+    C --> H[Email Already Exists]
+    H --> I[Return 409 Conflict]
+    
+    B --> J[Invalid Email Format]
+    J --> K[Return 400 Bad Request]
+    
+    E --> L[Database Error]
+    L --> M[Return 500 Server Error]
+```
+
+## 🎯 Common Use Cases
+
+### **1. API Documentation Generation**
+```bash
+# Generate API workflow documentation for your Express.js routes
+flow generate --input ./src/routes --output ./docs/api --format mermaid --include-api
+```
+
+### **2. React Component Analysis**
+```bash
+# Understand your React component workflows and data flow
+flow generate --input ./src/components --output ./docs/components --format all
+```
+
+### **3. Background Job Monitoring**
+```bash
+# Analyze your scheduled tasks and background jobs
+flow generate --input ./src/jobs --output ./docs/jobs --format json --include-database
+```
+
+### **4. Microservices Architecture Mapping**
+```bash
+# Map out your microservices workflows
+flow generate --input ./services --output ./docs/microservices --format mermaid --parallel
+```
+
+### **5. Database Query Optimization**
+```bash
+# Analyze database operations and suggest optimizations
+flow generate --input ./src/models --output ./docs/db --include-database --optimize
+```
+
+### **6. Third-party Integration Analysis**
+```bash
+# Map out your external API integrations
+flow generate --input ./src/services --output ./docs/integrations --format mermaid
 ```
 
 ## 🚀 Performance
