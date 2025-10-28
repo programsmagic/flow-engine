@@ -18,9 +18,11 @@
     "rebuild": "npm run clean && npm run build",
     "demo": "npm run build && node dist/examples/SimpleExamples.js",
     "docs:build": "echo 'Documentation is already built in docs/ directory'",
-    "docs:deploy": "./scripts/deploy-docs.sh",
+    "docs:deploy": "./scripts/deploy-github-pages.sh",
     "docs:serve": "cd docs && python3 -m http.server 8080",
-    "docs:preview": "cd docs && open index.html"
+    "docs:preview": "cd docs && open index.html",
+    "publish:npm": "./scripts/publish-npm.sh",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "workflow",
@@ -39,7 +41,7 @@
     "steps",
     "pipeline"
   ],
-  "author": "Flow Engine Team",
+  "author": "Prashant Mishra",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",
@@ -65,10 +67,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/flow-engine/flow-engine.git"
+    "url": "https://github.com/prashantmishra/universal-workflow-generator.git"
   },
   "bugs": {
-    "url": "https://github.com/flow-engine/flow-engine/issues"
+    "url": "https://github.com/prashantmishra/universal-workflow-generator/issues"
   },
-  "homepage": "https://github.com/flow-engine/flow-engine#readme"
+  "homepage": "https://prashantmishra.github.io/universal-workflow-generator",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/prashantmishra"
+  }
 }

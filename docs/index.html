@@ -3,482 +3,490 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌊 Flow Engine - Revolutionary Workflow-Based Backend Framework</title>
-    <meta name="description" content="Replace traditional controllers with efficient workflow orchestration. Memory-efficient, high-performance, with live monitoring.">
-    <meta name="keywords" content="workflow, backend, orchestration, nodejs, typescript, framework, monitoring">
-    <meta name="author" content="Flow Engine Team">
+    <title>Flow Engine - Simple Workflow Framework for Node.js</title>
+    <meta name="description" content="Simple workflow framework for Node.js backends. Easy integration with Express, Fastify, Koa, and any Node.js framework.">
+    <meta name="keywords" content="workflow, backend, express, fastify, koa, middleware, api, framework, nodejs, typescript">
+    <meta name="author" content="Prashant Mishra">
     
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Flow Engine - Simple Workflow Framework for Node.js">
+    <meta property="og:description" content="Simple workflow framework for Node.js backends. Easy integration with Express, Fastify, Koa, and any Node.js framework.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://flow-engine.github.io/universal-workflow-generator/">
-    <meta property="og:title" content="🌊 Flow Engine - Revolutionary Workflow-Based Backend Framework">
-    <meta property="og:description" content="Replace traditional controllers with efficient workflow orchestration. Memory-efficient, high-performance, with live monitoring.">
-    <meta property="og:image" content="https://flow-engine.github.io/universal-workflow-generator/assets/og-image.png">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://flow-engine.github.io/universal-workflow-generator/">
-    <meta property="twitter:title" content="🌊 Flow Engine - Revolutionary Workflow-Based Backend Framework">
-    <meta property="twitter:description" content="Replace traditional controllers with efficient workflow orchestration. Memory-efficient, high-performance, with live monitoring.">
-    <meta property="twitter:image" content="https://flow-engine.github.io/universal-workflow-generator/assets/og-image.png">
-
+    <meta property="og:url" content="https://prashantmishra.github.io/universal-workflow-generator">
+    <meta property="og:image" content="https://prashantmishra.github.io/universal-workflow-generator/assets/og-image.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Flow Engine - Simple Workflow Framework for Node.js">
+    <meta name="twitter:description" content="Simple workflow framework for Node.js backends. Easy integration with Express, Fastify, Koa, and any Node.js framework.">
+    <meta name="twitter:image" content="https://prashantmishra.github.io/universal-workflow-generator/assets/og-image.png">
+    
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link rel="canonical" href="https://prashantmishra.github.io/universal-workflow-generator">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <span class="nav-icon">🌊</span>
-                <span class="nav-title">Flow Engine</span>
-            </div>
-            <div class="nav-menu" id="navMenu">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#getting-started" class="nav-link">Getting Started</a>
-                <a href="#examples" class="nav-link">Examples</a>
-                <a href="#api" class="nav-link">API</a>
-                <a href="#monitoring" class="nav-link">Monitoring</a>
-                <a href="https://github.com/programsmagic/universal-workflow-generator" class="nav-link github-link" target="_blank">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    GitHub
-                </a>
-            </div>
-            <div class="nav-toggle" id="navToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
+    <header class="hero">
+        <div class="container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="hero-emoji">🌊</span>
+                    <span class="emoji">🌊</span>
                     Flow Engine
                 </h1>
-                <p class="hero-subtitle">Revolutionary workflow-based backend framework</p>
+                <p class="hero-subtitle">Simple workflow framework for Node.js backends</p>
                 <p class="hero-description">
-                    Replace traditional controllers with efficient workflow orchestration. 
-                    Memory-efficient, high-performance, with live monitoring.
+                    Replace complex controller logic with easy-to-use workflow steps. 
+                    Integrates seamlessly with Express, Fastify, Koa, and any Node.js framework.
                 </p>
+                
                 <div class="hero-badges">
-                    <span class="badge">✨ Memory Efficient</span>
-                    <span class="badge">⚡ High Performance</span>
-                    <span class="badge">📊 Live Monitoring</span>
+                    <a href="https://www.npmjs.com/package/flow-engine" class="badge npm">
+                        <span class="badge-icon">📦</span>
+                        <span class="badge-text">npm install flow-engine</span>
+                    </a>
+                    <a href="https://github.com/prashantmishra/universal-workflow-generator" class="badge github">
+                        <span class="badge-icon">⭐</span>
+                        <span class="badge-text">Star on GitHub</span>
+                    </a>
                 </div>
-                <div class="hero-actions">
-                    <a href="#getting-started" class="btn btn-primary">Get Started</a>
-                    <a href="#examples" class="btn btn-secondary">View Examples</a>
-                </div>
+                
                 <div class="hero-stats">
                     <div class="stat">
-                        <span class="stat-number">50%</span>
-                        <span class="stat-label">Less Memory</span>
+                        <span class="stat-number">🎯</span>
+                        <span class="stat-label">Super Easy</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-number">3x</span>
-                        <span class="stat-label">Faster</span>
+                        <span class="stat-number">🔗</span>
+                        <span class="stat-label">Framework Agnostic</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-number">Real-time</span>
-                        <span class="stat-label">Monitoring</span>
+                        <span class="stat-number">📦</span>
+                        <span class="stat-label">Common Payload</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">🔄</span>
+                        <span class="stat-label">Built-in Retries</span>
                     </div>
                 </div>
             </div>
-            <div class="hero-visual">
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Quick Start</h2>
+                
                 <div class="code-block">
                     <div class="code-header">
-                        <div class="code-dots">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <span class="code-title">Flow Definition</span>
+                        <span class="code-title">Installation</span>
+                        <button class="copy-btn" onclick="copyCode('install-code')">Copy</button>
                     </div>
-                    <pre><code class="language-typescript">const UserRegistrationFlow = {
-  id: 'user-registration',
-  nodes: [
-    { id: 'validate', type: 'validation' },
-    { id: 'create_user', type: 'database_query' },
-    { id: 'send_email', type: 'email' }
-  ],
-  edges: [
-    { source: 'validate', target: 'create_user' },
-    { source: 'create_user', target: 'send_email' }
-  ]
-};</code></pre>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Why Flow Engine?</h2>
-            <p class="section-description">
-                Traditional controllers are outdated. Flow Engine revolutionizes backend development 
-                with workflow-based architecture that's more efficient, scalable, and maintainable.
-            </p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🚀</div>
-                    <h3 class="feature-title">Workflow-Based Architecture</h3>
-                    <p class="feature-description">
-                        Replace traditional controllers with efficient workflow orchestration. 
-                        Define complex business processes as visual workflows.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💾</div>
-                    <h3 class="feature-title">Memory Efficient</h3>
-                    <p class="feature-description">
-                        50% less memory usage than traditional controllers. 
-                        Intelligent caching and memory pooling for optimal performance.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3 class="feature-title">High Performance</h3>
-                    <p class="feature-description">
-                        3x faster execution with parallel processing. 
-                        Better CPU utilization and intelligent resource management.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3 class="feature-title">Live Monitoring</h3>
-                    <p class="feature-description">
-                        Real-time dashboard with WebSocket updates. 
-                        Monitor flows, performance metrics, and system health.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3 class="feature-title">Easy to Use</h3>
-                    <p class="feature-description">
-                        Simple API and beautiful CLI interface. 
-                        TypeScript support and comprehensive documentation.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔧</div>
-                    <h3 class="feature-title">Developer Friendly</h3>
-                    <p class="feature-description">
-                        Beautiful logging, live debugging, and hot reload. 
-                        Built for modern development workflows.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Getting Started Section -->
-    <section id="getting-started" class="getting-started">
-        <div class="container">
-            <h2 class="section-title">Getting Started</h2>
-            <p class="section-description">
-                Get up and running with Flow Engine in minutes. 
-                Simple installation and beautiful CLI interface.
-            </p>
-            
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Install Flow Engine</h3>
-                        <div class="code-block">
-                            <pre><code class="language-bash">npm install flow-engine
+                    <pre id="install-code"><code>npm install flow-engine
 # or
 yarn add flow-engine</code></pre>
-                        </div>
-                    </div>
                 </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Create Your First Flow</h3>
-                        <div class="code-block">
-                            <pre><code class="language-typescript">import { FlowDefinition } from 'flow-engine';
 
-const UserRegistrationFlow: FlowDefinition = {
-  id: 'user-registration',
-  name: 'User Registration Flow',
-  startNode: 'validate_input',
-  nodes: [
-    {
-      id: 'validate_input',
-      type: 'validation',
-      label: 'Validate Input',
-      config: {
-        rules: [
-          { field: 'name', operator: 'required' },
-          { field: 'email', operator: 'email' }
-        ]
-      }
-    },
-    {
-      id: 'create_user',
-      type: 'database_query',
-      label: 'Create User',
-      config: {
-        query: 'INSERT INTO users (name, email) VALUES (?, ?)',
-        params: ['$name', '$email']
-      }
-    }
-  ],
-  edges: [
-    {
-      source: 'validate_input',
-      target: 'create_user',
-      label: 'Validation passed'
-    }
-  ]
-};</code></pre>
-                        </div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Basic Usage</span>
+                        <button class="copy-btn" onclick="copyCode('basic-code')">Copy</button>
                     </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Start the Server</h3>
-                        <div class="code-block">
-                            <pre><code class="language-bash"># Start server
-npx flow-engine start --port 3000
+                    <pre id="basic-code"><code>import { createFlow } from 'flow-engine';
 
-# Development mode
-npx flow-engine dev --watch --debug
+// Create a simple workflow
+const flow = createFlow()
+  .setCommonPayload({ apiKey: 'your-api-key' })
+  .step('validate', async (data) => {
+    if (!data.email) throw new Error('Email required');
+    return { isValid: true };
+  })
+  .step('process', async (data) => {
+    // Your processing logic here
+    return { processed: true };
+  });
 
-# Live monitoring
-npx flow-engine monitor</code></pre>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>Access Live Dashboard</h3>
-                        <p>Open your browser and navigate to:</p>
-                        <div class="code-block">
-                            <pre><code class="language-bash">http://localhost:3000/dashboard</code></pre>
-                        </div>
-                        <p>Monitor your flows in real-time with beautiful visualizations!</p>
-                    </div>
+// Execute the workflow
+const result = await flow.execute({ email: 'user@example.com' });
+console.log(result.success); // true
+console.log(result.data); // { isValid: true, processed: true }</code></pre>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Examples Section -->
-    <section id="examples" class="examples">
-        <div class="container">
-            <h2 class="section-title">Real-World Examples</h2>
-            <p class="section-description">
-                See how Flow Engine transforms complex business processes into efficient workflows.
-            </p>
-            
-            <div class="examples-grid">
-                <div class="example-card">
-                    <div class="example-header">
-                        <h3>E-commerce Order Processing</h3>
-                        <span class="example-tag">E-commerce</span>
-                    </div>
-                    <div class="example-content">
-                        <p>Complete order processing with inventory, payment, and fulfillment.</p>
-                        <div class="example-nodes">
-                            <span class="node">Validate Order</span>
-                            <span class="node">Check Inventory</span>
-                            <span class="node">Process Payment</span>
-                            <span class="node">Update Inventory</span>
-                            <span class="node">Send Confirmation</span>
-                        </div>
-                    </div>
-                </div>
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Framework Integration</h2>
                 
-                <div class="example-card">
-                    <div class="example-header">
-                        <h3>User Authentication</h3>
-                        <span class="example-tag">Authentication</span>
-                    </div>
-                    <div class="example-content">
-                        <p>Secure user authentication with JWT tokens and session management.</p>
-                        <div class="example-nodes">
-                            <span class="node">Validate Credentials</span>
-                            <span class="node">Check User Exists</span>
-                            <span class="node">Verify Password</span>
-                            <span class="node">Generate Token</span>
-                            <span class="node">Update Last Login</span>
-                        </div>
-                    </div>
+                <div class="integration-tabs">
+                    <button class="tab-btn active" onclick="showTab('express')">Express.js</button>
+                    <button class="tab-btn" onclick="showTab('fastify')">Fastify</button>
+                    <button class="tab-btn" onclick="showTab('koa')">Koa</button>
+                    <button class="tab-btn" onclick="showTab('standalone')">Standalone</button>
                 </div>
-                
-                <div class="example-card">
-                    <div class="example-header">
-                        <h3>Email Campaign</h3>
-                        <span class="example-tag">Marketing</span>
-                    </div>
-                    <div class="example-content">
-                        <p>Automated email campaign with personalization and tracking.</p>
-                        <div class="example-nodes">
-                            <span class="node">Get Subscribers</span>
-                            <span class="node">Personalize Content</span>
-                            <span class="node">Send Emails</span>
-                            <span class="node">Track Opens</span>
-                            <span class="node">Update Analytics</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- API Section -->
-    <section id="api" class="api">
-        <div class="container">
-            <h2 class="section-title">API Reference</h2>
-            <p class="section-description">
-                Comprehensive API documentation for Flow Engine.
-            </p>
-            
-            <div class="api-section">
-                <h3>FlowEngine</h3>
-                <div class="api-method">
-                    <h4>registerFlow(definition: FlowDefinition): Promise&lt;void&gt;</h4>
-                    <p>Register a new flow definition with the engine.</p>
+                <div id="express" class="tab-content active">
                     <div class="code-block">
-                        <pre><code class="language-typescript">await engine.registerFlow(UserRegistrationFlow);</code></pre>
+                        <div class="code-header">
+                            <span class="code-title">Express.js Integration</span>
+                            <button class="copy-btn" onclick="copyCode('express-code')">Copy</button>
+                        </div>
+                        <pre id="express-code"><code>import express from 'express';
+import { createFlow, expressFlow } from 'flow-engine';
+
+const app = express();
+app.use(express.json());
+
+// Create user registration flow
+const userFlow = createFlow()
+  .setCommonPayload({ timestamp: new Date().toISOString() })
+  .step('validate', async (data) => {
+    if (!data.email || !data.password) {
+      throw new Error('Email and password required');
+    }
+    return { isValid: true };
+  })
+  .step('createUser', async (data) => {
+    const user = { id: 1, email: data.email };
+    return { user };
+  })
+  .step('sendEmail', async (data) => {
+    console.log(`Welcome email sent to ${data.user.email}`);
+    return { emailSent: true };
+  });
+
+// Use as Express middleware
+app.post('/api/users', expressFlow(userFlow), (req, res) => {
+  res.json({
+    success: true,
+    user: req.flowResult.data.user
+  });
+});
+
+app.listen(3000);</code></pre>
                     </div>
                 </div>
-                
-                <div class="api-method">
-                    <h4>executeFlow(flowId: string, input: any, context?: FlowContext): Promise&lt;FlowResult&gt;</h4>
-                    <p>Execute a flow with the given input and context.</p>
+
+                <div id="fastify" class="tab-content">
                     <div class="code-block">
-                        <pre><code class="language-typescript">const result = await engine.executeFlow('user-registration', {
-  name: 'John Doe',
-  email: 'john@example.com'
+                        <div class="code-header">
+                            <span class="code-title">Fastify Integration</span>
+                            <button class="copy-btn" onclick="copyCode('fastify-code')">Copy</button>
+                        </div>
+                        <pre id="fastify-code"><code>import Fastify from 'fastify';
+import { createFlow } from 'flow-engine';
+
+const fastify = Fastify();
+
+const orderFlow = createFlow()
+  .setCommonPayload({ currency: 'USD' })
+  .step('validateOrder', async (data) => {
+    if (!data.items?.length) throw new Error('No items');
+    return { valid: true };
+  })
+  .step('calculateTotal', async (data) => {
+    const total = data.items.reduce((sum, item) => sum + item.price, 0);
+    return { total };
+  })
+  .step('processPayment', async (data) => {
+    return { paymentId: 'pay_123' };
+  });
+
+fastify.post('/api/orders', async (request, reply) => {
+  const result = await orderFlow.execute(request.body);
+  
+  if (result.success) {
+    return { order: result.data };
+  } else {
+    reply.code(400);
+    return { error: result.error };
+  }
 });</code></pre>
                     </div>
                 </div>
-                
-                <div class="api-method">
-                    <h4>getStatistics(): FlowStatistics</h4>
-                    <p>Get current flow execution statistics.</p>
-                    <div class="code-block">
-                        <pre><code class="language-typescript">const stats = engine.getStatistics();
-console.log(stats.activeFlows, stats.memoryUsage);</code></pre>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="api-section">
-                <h3>FlowServer</h3>
-                <div class="api-method">
-                    <h4>start(port: number, host: string): Promise&lt;void&gt;</h4>
-                    <p>Start the Flow Engine server.</p>
-                    <div class="code-block">
-                        <pre><code class="language-typescript">const server = new FlowServer();
-await server.start(3000, '0.0.0.0');</code></pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Monitoring Section -->
-    <section id="monitoring" class="monitoring">
-        <div class="container">
-            <h2 class="section-title">Live Monitoring</h2>
-            <p class="section-description">
-                Beautiful real-time monitoring dashboard with WebSocket updates.
-            </p>
-            
-            <div class="monitoring-features">
-                <div class="monitoring-card">
-                    <div class="monitoring-icon">📊</div>
-                    <h3>Real-time Metrics</h3>
-                    <p>Monitor memory usage, CPU, active connections, and performance metrics in real-time.</p>
-                </div>
-                
-                <div class="monitoring-card">
-                    <div class="monitoring-icon">🔄</div>
-                    <h3>Active Flows</h3>
-                    <p>Live view of running workflows with status indicators and execution details.</p>
-                </div>
-                
-                <div class="monitoring-card">
-                    <div class="monitoring-icon">📈</div>
-                    <h3>Performance Analytics</h3>
-                    <p>Success rate, execution time, error rate, and detailed performance analytics.</p>
-                </div>
-                
-                <div class="monitoring-card">
-                    <div class="monitoring-icon">📡</div>
-                    <h3>WebSocket Updates</h3>
-                    <p>Real-time data streaming with WebSocket connections for live updates.</p>
-                </div>
-            </div>
-            
-            <div class="monitoring-demo">
-                <h3>Live Dashboard Preview</h3>
-                <div class="dashboard-preview">
-                    <div class="dashboard-header">
-                        <span class="dashboard-title">🌊 Flow Engine Dashboard</span>
-                        <div class="dashboard-status">
-                            <span class="status-dot"></span>
-                            <span>Connected</span>
+                <div id="koa" class="tab-content">
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Koa Integration</span>
+                            <button class="copy-btn" onclick="copyCode('koa-code')">Copy</button>
                         </div>
-                    </div>
-                    <div class="dashboard-metrics">
-                        <div class="metric">
-                            <span class="metric-label">Memory Usage</span>
-                            <span class="metric-value">45MB</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Active Flows</span>
-                            <span class="metric-value">3</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Success Rate</span>
-                            <span class="metric-value">95%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                        <pre id="koa-code"><code>import Koa from 'koa';
+import Router from 'koa-router';
+import { createFlow } from 'flow-engine';
 
-    <!-- Footer -->
+const app = new Koa();
+const router = new Router();
+
+const authFlow = createFlow()
+  .step('validateCredentials', async (data) => {
+    if (!data.email || !data.password) {
+      throw new Error('Invalid credentials');
+    }
+    return { valid: true };
+  })
+  .step('generateToken', async (data) => {
+    const token = `jwt_${Math.random().toString(36).substr(2, 9)}`;
+    return { token };
+  });
+
+router.post('/api/auth', async (ctx) => {
+  const result = await authFlow.execute(ctx.request.body);
+  
+  if (result.success) {
+    ctx.body = { token: result.data.token };
+  } else {
+    ctx.status = 401;
+    ctx.body = { error: result.error };
+  }
+});</code></pre>
+                    </div>
+                </div>
+
+                <div id="standalone" class="tab-content">
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Standalone Usage</span>
+                            <button class="copy-btn" onclick="copyCode('standalone-code')">Copy</button>
+                        </div>
+                        <pre id="standalone-code"><code>import { createFlow } from 'flow-engine';
+
+// Create a simple workflow
+const workflow = createFlow()
+  .setCommonPayload({
+    environment: 'production',
+    version: '1.0.0'
+  })
+  .step('step1', async (data) => {
+    console.log('Executing step 1');
+    return { step1Result: 'completed' };
+  })
+  .step('step2', async (data) => {
+    console.log('Executing step 2');
+    return { step2Result: 'completed' };
+  });
+
+// Execute the workflow
+const result = await workflow.execute({
+  input: 'test data'
+});
+
+console.log('Workflow result:', result);</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Advanced Features</h2>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔧</div>
+                        <h3 class="feature-title">Middleware Support</h3>
+                        <p class="feature-description">Add authentication, logging, and other middleware that runs before each step.</p>
+                        <div class="feature-code">
+                            <pre><code>flow.use(async (data, context) => {
+  // Authentication middleware
+  if (!data.apiKey) throw new Error('Unauthorized');
+  context.metadata.userId = 'user_123';
+});</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h3 class="feature-title">Retry Logic & Timeouts</h3>
+                        <p class="feature-description">Built-in retry with exponential backoff and configurable timeouts.</p>
+                        <div class="feature-code">
+                            <pre><code>flow.step('externalAPI', async (data) => {
+  const response = await fetch('https://api.example.com/data');
+  return { data: await response.json() };
+}, { retries: 3, timeout: 10000 });</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔗</div>
+                        <h3 class="feature-title">Step Dependencies</h3>
+                        <p class="feature-description">Define dependencies between steps to control execution order.</p>
+                        <div class="feature-code">
+                            <pre><code>flow.step('fetchOrders', async (data) => {
+  return { orders: await getOrders(data.user.id) };
+}, { dependencies: ['fetchUser'] });</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title">Execution Tracking</h3>
+                        <p class="feature-description">Know exactly which steps executed, execution time, and detailed metadata.</p>
+                        <div class="feature-code">
+                            <pre><code>const result = await flow.execute(inputData);
+console.log(result.steps);        // ['validate', 'process', 'save']
+console.log(result.executionTime); // 245
+console.log(result.metadata);     // { requestId: 'exec_123' }</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Real-World Examples</h2>
+                
+                <div class="example-card">
+                    <h3 class="example-title">E-commerce Order Processing</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Complete Order Flow</span>
+                            <button class="copy-btn" onclick="copyCode('order-code')">Copy</button>
+                        </div>
+                        <pre id="order-code"><code>const orderFlow = createFlow()
+  .setCommonPayload({ 
+    currency: 'USD',
+    taxRate: 0.08,
+    shippingRate: 5.99
+  })
+  .step('validateOrder', async (data) => {
+    if (!data.items?.length) throw new Error('No items in order');
+    if (!data.customerId) throw new Error('Customer ID required');
+    return { orderValid: true };
+  })
+  .step('checkInventory', async (data) => {
+    for (const item of data.items) {
+      const available = await checkStock(item.productId);
+      if (available < item.quantity) {
+        throw new Error(`Insufficient stock for ${item.productId}`);
+      }
+    }
+    return { inventoryChecked: true };
+  })
+  .step('calculatePricing', async (data) => {
+    const subtotal = data.items.reduce((sum, item) => sum + item.price, 0);
+    const tax = subtotal * data.taxRate;
+    const shipping = subtotal > 50 ? 0 : data.shippingRate;
+    const total = subtotal + tax + shipping;
+    return { subtotal, tax, shipping, total };
+  })
+  .step('processPayment', async (data) => {
+    const payment = await stripe.charges.create({
+      amount: Math.round(data.total * 100),
+      currency: data.currency,
+      source: data.paymentToken
+    });
+    return { paymentId: payment.id };
+  })
+  .step('createOrder', async (data) => {
+    const order = await db.orders.create({
+      customerId: data.customerId,
+      items: data.items,
+      total: data.total,
+      paymentId: data.paymentId,
+      status: 'confirmed'
+    });
+    return { order };
+  })
+  .step('sendConfirmation', async (data) => {
+    await emailService.send({
+      to: data.customer.email,
+      template: 'order-confirmation',
+      data: { order: data.order }
+    });
+    return { emailSent: true };
+  });
+
+// Use in Express route
+app.post('/api/orders', expressFlow(orderFlow), (req, res) => {
+  res.json({ order: req.flowResult.data.order });
+});</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">API Reference</h2>
+                
+                <div class="api-reference">
+                    <div class="api-item">
+                        <h3 class="api-title">createFlow()</h3>
+                        <p class="api-description">Creates a new workflow instance.</p>
+                        <div class="api-code">
+                            <pre><code>const flow = createFlow();</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="api-item">
+                        <h3 class="api-title">.setCommonPayload(payload)</h3>
+                        <p class="api-description">Sets data available to all steps.</p>
+                        <div class="api-code">
+                            <pre><code>flow.setCommonPayload({ apiKey: 'your-key', version: '1.0' });</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="api-item">
+                        <h3 class="api-title">.use(middleware)</h3>
+                        <p class="api-description">Adds middleware that runs before each step.</p>
+                        <div class="api-code">
+                            <pre><code>flow.use(async (data, context) => {
+  console.log(`Executing step with data:`, data);
+});</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="api-item">
+                        <h3 class="api-title">.step(id, handler, options?)</h3>
+                        <p class="api-description">Adds a step to the workflow.</p>
+                        <div class="api-code">
+                            <pre><code>flow.step('process', async (data) => {
+  return { processed: true };
+}, { retries: 3, timeout: 5000 });</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="api-item">
+                        <h3 class="api-title">.execute(inputData)</h3>
+                        <p class="api-description">Executes the workflow with input data.</p>
+                        <div class="api-code">
+                            <pre><code>const result = await flow.execute({ email: 'user@example.com' });</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="footer-icon">🌊</span>
-                    <span class="footer-title">Flow Engine</span>
+                <div class="footer-section">
+                    <h3 class="footer-title">🌊 Flow Engine</h3>
+                    <p class="footer-description">Simple workflow framework for Node.js backends</p>
                 </div>
-                <div class="footer-links">
-                    <a href="https://github.com/programsmagic/universal-workflow-generator" target="_blank">GitHub</a>
-                    <a href="#api">Documentation</a>
-                    <a href="#examples">Examples</a>
-                    <a href="#monitoring">Monitoring</a>
+                
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/prashantmishra/universal-workflow-generator">GitHub</a></li>
+                        <li><a href="https://www.npmjs.com/package/flow-engine">NPM</a></li>
+                        <li><a href="https://github.com/prashantmishra/universal-workflow-generator/issues">Issues</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">Author</h4>
+                    <p class="footer-author">Created by <a href="https://github.com/prashantmishra">Prashant Mishra</a></p>
                 </div>
             </div>
+            
             <div class="footer-bottom">
-                <p>&copy; 2024 Flow Engine. Built with ❤️ by the Flow Engine team.</p>
+                <p class="footer-copyright">
+                    © 2024 Flow Engine. Licensed under the MIT License.
+                </p>
             </div>
         </div>
     </footer>

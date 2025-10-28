@@ -416,4 +416,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **🌊 Flow Engine** - *Simple workflow framework for Node.js backends*
 
-[Website](https://flow-engine.dev) • [Documentation](https://docs.flow-engine.dev) • [GitHub](https://github.com/flow-engine/flow-engine) • [Discord](https://discord.gg/flow-engine)
+[Documentation](https://prashantmishra.github.io/universal-workflow-generator) • [GitHub](https://github.com/prashantmishra/universal-workflow-generator) • [NPM](https://www.npmjs.com/package/flow-engine)
