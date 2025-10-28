@@ -1,6 +1,6 @@
 {
   "name": "flow-engine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "🌊 Simple workflow framework for Node.js backends - Easy integration with Express, Fastify, Koa",
   "main": "dist/index.js",
   "bin": {
