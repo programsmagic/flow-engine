@@ -12,18 +12,18 @@
     <meta property="og:title" content="Flow Engine - Simple Workflow Framework for Node.js">
     <meta property="og:description" content="Simple workflow framework for Node.js backends. Easy integration with Express, Fastify, Koa, and any Node.js framework.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://prashantmishra.github.io/universal-workflow-generator">
-    <meta property="og:image" content="https://prashantmishra.github.io/universal-workflow-generator/assets/og-image.png">
+    <meta property="og:url" content="https://programsmagic.github.io/flow-engine">
+    <meta property="og:image" content="https://programsmagic.github.io/flow-engine/assets/og-image.png">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Flow Engine - Simple Workflow Framework for Node.js">
     <meta name="twitter:description" content="Simple workflow framework for Node.js backends. Easy integration with Express, Fastify, Koa, and any Node.js framework.">
-    <meta name="twitter:image" content="https://prashantmishra.github.io/universal-workflow-generator/assets/og-image.png">
-    
+    <meta name="twitter:image" content="https://programsmagic.github.io/flow-engine/assets/og-image.png">
+
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="styles.css">
-    <link rel="canonical" href="https://prashantmishra.github.io/universal-workflow-generator">
+    <link rel="canonical" href="https://programsmagic.github.io/flow-engine">
 </head>
 <body>
     <header class="hero">
@@ -44,7 +44,7 @@
                         <span class="badge-icon">📦</span>
                         <span class="badge-text">npm install flow-engine</span>
                     </a>
-                    <a href="https://github.com/prashantmishra/universal-workflow-generator" class="badge github">
+                    <a href="https://github.com/programsmagic/flow-engine" class="badge github">
                         <span class="badge-icon">⭐</span>
                         <span class="badge-text">Star on GitHub</span>
                     </a>
@@ -91,7 +91,7 @@ yarn add flow-engine</code></pre>
                     <div class="code-header">
                         <span class="code-title">Basic Usage</span>
                         <button class="copy-btn" onclick="copyCode('basic-code')">Copy</button>
-                    </div>
+            </div>
                     <pre id="basic-code"><code>import { createFlow } from 'flow-engine';
 
 // Create a simple workflow
@@ -110,12 +110,12 @@ const flow = createFlow()
 const result = await flow.execute({ email: 'user@example.com' });
 console.log(result.success); // true
 console.log(result.data); // { isValid: true, processed: true }</code></pre>
-                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
         <section class="section">
-            <div class="container">
+        <div class="container">
                 <h2 class="section-title">Framework Integration</h2>
                 
                 <div class="integration-tabs">
@@ -126,7 +126,7 @@ console.log(result.data); // { isValid: true, processed: true }</code></pre>
                 </div>
 
                 <div id="express" class="tab-content active">
-                    <div class="code-block">
+                        <div class="code-block">
                         <div class="code-header">
                             <span class="code-title">Express.js Integration</span>
                             <button class="copy-btn" onclick="copyCode('express-code')">Copy</button>
@@ -166,9 +166,9 @@ app.post('/api/users', expressFlow(userFlow), (req, res) => {
 app.listen(3000);</code></pre>
                     </div>
                 </div>
-
+                
                 <div id="fastify" class="tab-content">
-                    <div class="code-block">
+                        <div class="code-block">
                         <div class="code-header">
                             <span class="code-title">Fastify Integration</span>
                             <button class="copy-btn" onclick="copyCode('fastify-code')">Copy</button>
@@ -204,9 +204,9 @@ fastify.post('/api/orders', async (request, reply) => {
 });</code></pre>
                     </div>
                 </div>
-
+                
                 <div id="koa" class="tab-content">
-                    <div class="code-block">
+                        <div class="code-block">
                         <div class="code-header">
                             <span class="code-title">Koa Integration</span>
                             <button class="copy-btn" onclick="copyCode('koa-code')">Copy</button>
@@ -242,9 +242,9 @@ router.post('/api/auth', async (ctx) => {
 });</code></pre>
                     </div>
                 </div>
-
+                
                 <div id="standalone" class="tab-content">
-                    <div class="code-block">
+                        <div class="code-block">
                         <div class="code-header">
                             <span class="code-title">Standalone Usage</span>
                             <button class="copy-btn" onclick="copyCode('standalone-code')">Copy</button>
@@ -272,13 +272,13 @@ const result = await workflow.execute({
 });
 
 console.log('Workflow result:', result);</code></pre>
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
         <section class="section">
-            <div class="container">
+        <div class="container">
                 <h2 class="section-title">Advanced Features</h2>
                 
                 <div class="features-grid">
@@ -304,9 +304,9 @@ console.log('Workflow result:', result);</code></pre>
   const response = await fetch('https://api.example.com/data');
   return { data: await response.json() };
 }, { retries: 3, timeout: 10000 });</code></pre>
-                        </div>
                     </div>
-
+                </div>
+                
                     <div class="feature-card">
                         <div class="feature-icon">🔗</div>
                         <h3 class="feature-title">Step Dependencies</h3>
@@ -315,9 +315,9 @@ console.log('Workflow result:', result);</code></pre>
                             <pre><code>flow.step('fetchOrders', async (data) => {
   return { orders: await getOrders(data.user.id) };
 }, { dependencies: ['fetchUser'] });</code></pre>
-                        </div>
                     </div>
-
+                </div>
+                
                     <div class="feature-card">
                         <div class="feature-icon">📊</div>
                         <h3 class="feature-title">Execution Tracking</h3>
@@ -327,14 +327,14 @@ console.log('Workflow result:', result);</code></pre>
 console.log(result.steps);        // ['validate', 'process', 'save']
 console.log(result.executionTime); // 245
 console.log(result.metadata);     // { requestId: 'exec_123' }</code></pre>
-                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
         <section class="section">
-            <div class="container">
+        <div class="container">
                 <h2 class="section-title">Real-World Examples</h2>
                 
                 <div class="example-card">
@@ -402,13 +402,13 @@ console.log(result.metadata);     // { requestId: 'exec_123' }</code></pre>
 app.post('/api/orders', expressFlow(orderFlow), (req, res) => {
   res.json({ order: req.flowResult.data.order });
 });</code></pre>
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
         <section class="section">
-            <div class="container">
+        <div class="container">
                 <h2 class="section-title">API Reference</h2>
                 
                 <div class="api-reference">
@@ -417,17 +417,17 @@ app.post('/api/orders', expressFlow(orderFlow), (req, res) => {
                         <p class="api-description">Creates a new workflow instance.</p>
                         <div class="api-code">
                             <pre><code>const flow = createFlow();</code></pre>
-                        </div>
-                    </div>
-
+                </div>
+                </div>
+                
                     <div class="api-item">
                         <h3 class="api-title">.setCommonPayload(payload)</h3>
                         <p class="api-description">Sets data available to all steps.</p>
                         <div class="api-code">
                             <pre><code>flow.setCommonPayload({ apiKey: 'your-key', version: '1.0' });</code></pre>
-                        </div>
-                    </div>
-
+                </div>
+            </div>
+            
                     <div class="api-item">
                         <h3 class="api-title">.use(middleware)</h3>
                         <p class="api-description">Adds middleware that runs before each step.</p>
@@ -446,18 +446,18 @@ app.post('/api/orders', expressFlow(orderFlow), (req, res) => {
   return { processed: true };
 }, { retries: 3, timeout: 5000 });</code></pre>
                         </div>
-                    </div>
+                        </div>
 
                     <div class="api-item">
                         <h3 class="api-title">.execute(inputData)</h3>
                         <p class="api-description">Executes the workflow with input data.</p>
                         <div class="api-code">
                             <pre><code>const result = await flow.execute({ email: 'user@example.com' });</code></pre>
-                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
     </main>
 
     <footer class="footer">
@@ -471,9 +471,9 @@ app.post('/api/orders', expressFlow(orderFlow), (req, res) => {
                 <div class="footer-section">
                     <h4 class="footer-subtitle">Links</h4>
                     <ul class="footer-links">
-                        <li><a href="https://github.com/prashantmishra/universal-workflow-generator">GitHub</a></li>
+                        <li><a href="https://github.com/programsmagic/flow-engine">GitHub</a></li>
                         <li><a href="https://www.npmjs.com/package/flow-engine">NPM</a></li>
-                        <li><a href="https://github.com/prashantmishra/universal-workflow-generator/issues">Issues</a></li>
+                        <li><a href="https://github.com/programsmagic/flow-engine/issues">Issues</a></li>
                     </ul>
                 </div>
                 

@@ -67,7 +67,7 @@ QUICK START:
   const result = await flow.execute(inputData);
 
 DOCUMENTATION:
-  https://github.com/flow-engine/flow-engine#readme
+  https://programsmagic.github.io/flow-engine
 `);
 }
 

@@ -65,7 +65,7 @@ npm run publish:npm
 ### **GitHub Pages**
 - [ ] Run: `npm run docs:deploy`
 - [ ] Configure GitHub Pages settings (main branch, /docs folder)
-- [ ] Verify site loads at: `https://prashantmishra.github.io/universal-workflow-generator`
+- [ ] Verify site loads at: `https://programsmagic.github.io/flow-engine`
 
 ### **NPM Publishing**
 - [ ] Run: `npm run publish:npm`

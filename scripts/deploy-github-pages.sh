@@ -52,7 +52,7 @@ git push origin main
 echo "✅ Deployment complete!"
 echo ""
 echo "🌐 Your documentation will be available at:"
-echo "   https://prashantmishra.github.io/universal-workflow-generator"
+echo "   https://programsmagic.github.io/flow-engine"
 echo ""
 echo "📋 Next steps:"
 echo "   1. Go to your GitHub repository settings"

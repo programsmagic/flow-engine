@@ -67,17 +67,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/prashantmishra/universal-workflow-generator.git"
+    "url": "https://github.com/programsmagic/flow-engine.git"
   },
   "bugs": {
-    "url": "https://github.com/prashantmishra/universal-workflow-generator/issues"
+    "url": "https://github.com/programsmagic/flow-engine/issues"
   },
-  "homepage": "https://prashantmishra.github.io/universal-workflow-generator",
+  "homepage": "https://programsmagic.github.io/flow-engine",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "funding": {
     "type": "github",
-    "url": "https://github.com/sponsors/prashantmishra"
+    "url": "https://github.com/sponsors/programsmagic"
   }
 }

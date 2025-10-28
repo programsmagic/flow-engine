@@ -22,7 +22,7 @@ This guide will help you deploy Flow Engine to GitHub Pages and publish it to NP
 
 2. **Add Remote Repository**:
    ```bash
-   git remote add origin https://github.com/prashantmishra/universal-workflow-generator.git
+   git remote add origin https://github.com/programsmagic/flow-engine.git
    ```
 
 ### Step 2: Deploy Documentation
@@ -47,7 +47,7 @@ This guide will help you deploy Flow Engine to GitHub Pages and publish it to NP
 
 3. **Wait for Deployment**:
    - GitHub will automatically deploy your documentation
-   - Your site will be available at: `https://prashantmishra.github.io/universal-workflow-generator`
+   - Your site will be available at: `https://programsmagic.github.io/flow-engine`
 
 ### Step 3: Verify Deployment
 

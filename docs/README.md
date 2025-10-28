@@ -169,4 +169,4 @@ This documentation is licensed under the MIT License - see the [LICENSE](../LICE
 
 **🌊 Flow Engine Documentation** - *Beautiful, interactive documentation for the revolutionary workflow-based backend framework*
 
-[Live Demo](https://flow-engine.github.io/universal-workflow-generator/) • [GitHub](https://github.com/programsmagic/universal-workflow-generator) • [Documentation](https://flow-engine.github.io/universal-workflow-generator/)
+[Live Demo](https://programsmagic.github.io/flow-engine/) • [GitHub](https://github.com/programsmagic/flow-engine) • [Documentation](https://programsmagic.github.io/flow-engine/)

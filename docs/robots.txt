@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://flow-engine.github.io/universal-workflow-generator/sitemap.xml
+Sitemap: https://programsmagic.github.io/flow-engine/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1
