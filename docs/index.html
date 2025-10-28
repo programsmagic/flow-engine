@@ -40,9 +40,9 @@
                 </p>
                 
                 <div class="hero-badges">
-                    <a href="https://www.npmjs.com/package/flow-engine-simple" class="badge npm">
+                    <a href="https://www.npmjs.com/package/node-workflow-engine" class="badge npm">
                         <span class="badge-icon">📦</span>
-                        <span class="badge-text">npm install flow-engine-simple</span>
+                        <span class="badge-text">npm install node-workflow-engine</span>
                     </a>
                     <a href="https://github.com/programsmagic/flow-engine" class="badge github">
                         <span class="badge-icon">⭐</span>
@@ -82,9 +82,9 @@
                         <span class="code-title">Installation</span>
                         <button class="copy-btn" onclick="copyCode('install-code')">Copy</button>
                     </div>
-                    <pre id="install-code"><code>npm install flow-engine-simple
+                    <pre id="install-code"><code>npm install node-workflow-engine
 # or
-yarn add flow-engine-simple</code></pre>
+yarn add node-workflow-engine</code></pre>
                 </div>
 
                 <div class="code-block">
@@ -92,7 +92,7 @@ yarn add flow-engine-simple</code></pre>
                         <span class="code-title">Basic Usage</span>
                         <button class="copy-btn" onclick="copyCode('basic-code')">Copy</button>
             </div>
-                        <pre id="basic-code"><code>import { createFlow } from 'flow-engine-simple';
+                        <pre id="basic-code"><code>import { createFlow } from 'node-workflow-engine';
 
 // Create a simple workflow
 const flow = createFlow()
@@ -132,7 +132,7 @@ console.log(result.data); // { isValid: true, processed: true }</code></pre>
                             <button class="copy-btn" onclick="copyCode('express-code')">Copy</button>
                         </div>
                         <pre id="express-code"><code>import express from 'express';
-import { createFlow, expressFlow } from 'flow-engine-simple';
+import { createFlow, expressFlow } from 'node-workflow-engine';
 
 const app = express();
 app.use(express.json());
@@ -174,7 +174,7 @@ app.listen(3000);</code></pre>
                             <button class="copy-btn" onclick="copyCode('fastify-code')">Copy</button>
                         </div>
                         <pre id="fastify-code"><code>import Fastify from 'fastify';
-import { createFlow } from 'flow-engine-simple';
+import { createFlow } from 'node-workflow-engine';
 
 const fastify = Fastify();
 
@@ -213,7 +213,7 @@ fastify.post('/api/orders', async (request, reply) => {
                         </div>
                         <pre id="koa-code"><code>import Koa from 'koa';
 import Router from 'koa-router';
-import { createFlow } from 'flow-engine-simple';
+import { createFlow } from 'node-workflow-engine';
 
 const app = new Koa();
 const router = new Router();
@@ -249,7 +249,7 @@ router.post('/api/auth', async (ctx) => {
                             <span class="code-title">Standalone Usage</span>
                             <button class="copy-btn" onclick="copyCode('standalone-code')">Copy</button>
                         </div>
-                        <pre id="standalone-code"><code>import { createFlow } from 'flow-engine-simple';
+                        <pre id="standalone-code"><code>import { createFlow } from 'node-workflow-engine';
 
 // Create a simple workflow
 const workflow = createFlow()
@@ -472,7 +472,7 @@ app.post('/api/orders', expressFlow(orderFlow), (req, res) => {
                     <h4 class="footer-subtitle">Links</h4>
                     <ul class="footer-links">
                         <li><a href="https://github.com/programsmagic/flow-engine">GitHub</a></li>
-                        <li><a href="https://www.npmjs.com/package/flow-engine-simple">NPM</a></li>
+                        <li><a href="https://www.npmjs.com/package/node-workflow-engine">NPM</a></li>
                         <li><a href="https://github.com/programsmagic/flow-engine/issues">Issues</a></li>
                     </ul>
                 </div>

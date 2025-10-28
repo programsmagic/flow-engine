@@ -56,9 +56,9 @@ EXAMPLES:
   flow-engine help
 
 QUICK START:
-  npm install flow-engine-simple
+  npm install node-workflow-engine
   
-  import { createFlow } from 'flow-engine-simple';
+  import { createFlow } from 'node-workflow-engine';
   
   const flow = createFlow()
     .step('validate', async (data) => { /* validation */ })

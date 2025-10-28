@@ -1,11 +1,11 @@
 {
-  "name": "flow-engine-simple",
+  "name": "node-workflow-engine",
   "version": "1.0.2",
   "description": "🌊 Simple workflow framework for Node.js backends - Easy integration with Express, Fastify, Koa",
   "main": "dist/index.js",
   "bin": {
-    "flow-engine-simple": "./dist/cli.js",
-    "flow-engine": "./dist/cli.js"
+    "node-workflow-engine": "./dist/cli.js",
+    "workflow": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
