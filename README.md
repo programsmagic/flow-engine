@@ -23,15 +23,15 @@ Replace complex controller logic with easy-to-use workflow steps. Integrates sea
 ### Installation
 
 ```bash
-npm install flow-engine
+npm install @programsmagic/flow-engine
 # or
-yarn add flow-engine
+yarn add @programsmagic/flow-engine
 ```
 
 ### Basic Usage
 
 ```typescript
-import { createFlow } from 'flow-engine';
+import { createFlow } from '@programsmagic/flow-engine';
 
 // Create a simple workflow
 const flow = createFlow()
@@ -57,7 +57,7 @@ console.log(result.data); // { isValid: true, processed: true }
 
 ```typescript
 import express from 'express';
-import { createFlow, expressFlow } from 'flow-engine';
+import { createFlow, expressFlow } from '@programsmagic/flow-engine';
 
 const app = express();
 app.use(express.json());
@@ -97,7 +97,7 @@ app.listen(3000);
 
 ```typescript
 import Fastify from 'fastify';
-import { createFlow } from 'flow-engine';
+import { createFlow } from '@programsmagic/flow-engine';
 
 const fastify = Fastify();
 
@@ -133,7 +133,7 @@ fastify.post('/api/orders', async (request, reply) => {
 ```typescript
 import Koa from 'koa';
 import Router from 'koa-router';
-import { createFlow } from 'flow-engine';
+import { createFlow } from '@programsmagic/flow-engine';
 
 const app = new Koa();
 const router = new Router();
@@ -416,4 +416,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **🌊 Flow Engine** - *Simple workflow framework for Node.js backends*
 
-[Documentation](https://programsmagic.github.io/flow-engine) • [GitHub](https://github.com/programsmagic/flow-engine) • [NPM](https://www.npmjs.com/package/flow-engine)
+[Documentation](https://programsmagic.github.io/flow-engine) • [GitHub](https://github.com/programsmagic/flow-engine) • [NPM](https://www.npmjs.com/package/@programsmagic/flow-engine)

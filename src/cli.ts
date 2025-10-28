@@ -56,9 +56,9 @@ EXAMPLES:
   flow-engine help
 
 QUICK START:
-  npm install flow-engine
+  npm install @programsmagic/flow-engine
   
-  import { createFlow } from 'flow-engine';
+  import { createFlow } from '@programsmagic/flow-engine';
   
   const flow = createFlow()
     .step('validate', async (data) => { /* validation */ })
