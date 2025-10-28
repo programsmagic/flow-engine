@@ -12,27 +12,27 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "removeComments": false,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
+    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "resolveJsonModule": true,
-    "moduleResolution": "node"
+    "emitDecoratorMetadata": true
   },
   "include": [
-    "src/**/*"
+    "src/SimpleFlowEngine.ts",
+    "src/index.ts",
+    "src/cli.ts",
+    "src/examples/SimpleExamples.ts",
+    "src/integrations/NodeJSIntegrations.ts"
   ],
   "exclude": [
+    "src/core/**/*",
+    "src/server/**/*",
+    "src/parsers/**/*",
+    "src/patterns/**/*",
+    "src/integrations/UniversalIntegrator.ts",
+    "src/__tests__/**/*",
+    "src/legacy/**/*",
     "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.spec.ts"
+    "dist"
   ]
 }

@@ -1,8 +1,8 @@
 # 🌊 Flow Engine
 
-**Revolutionary workflow-based backend framework with live monitoring**
+**Simple workflow framework for Node.js backends**
 
-Replace traditional controllers with efficient workflow orchestration that's memory-efficient, high-performance, and provides real-time monitoring.
+Replace complex controller logic with easy-to-use workflow steps. Integrates seamlessly with Express, Fastify, Koa, and any Node.js framework.
 
 [![npm version](https://badge.fury.io/js/flow-engine.svg)](https://badge.fury.io/js/flow-engine)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -10,12 +10,13 @@ Replace traditional controllers with efficient workflow orchestration that's mem
 
 ## ✨ Features
 
-- **🚀 Workflow-Based Architecture** - Replace controllers with efficient workflow orchestration
-- **💾 Memory Efficient** - 50% less memory usage than traditional controllers
-- **⚡ High Performance** - 3x faster execution with parallel processing
-- **📊 Live Monitoring** - Real-time dashboard with WebSocket updates
-- **🎯 Easy to Use** - Simple API and beautiful CLI interface
-- **🔧 Developer Friendly** - TypeScript support and comprehensive logging
+- **🎯 Super Easy** - Just create a flow and add steps
+- **🔗 Framework Agnostic** - Works with Express, Fastify, Koa, or standalone
+- **📦 Common Payload** - Share data across all steps automatically
+- **🔄 Retry Logic** - Built-in retry with exponential backoff
+- **⏱️ Timeout Support** - Prevent hanging operations
+- **📊 Step Tracking** - Know exactly which steps executed
+- **🔧 TypeScript Ready** - Full TypeScript support
 
 ## 🚀 Quick Start
 
@@ -30,342 +31,377 @@ yarn add flow-engine
 ### Basic Usage
 
 ```typescript
-import { FlowEngineApp } from 'flow-engine';
+import { createFlow } from 'flow-engine';
 
-const app = new FlowEngineApp();
-await app.start(3000);
+// Create a simple workflow
+const flow = createFlow()
+  .setCommonPayload({ apiKey: 'your-api-key' })
+  .step('validate', async (data) => {
+    if (!data.email) throw new Error('Email required');
+    return { isValid: true };
+  })
+  .step('process', async (data) => {
+    // Your processing logic here
+    return { processed: true };
+  });
+
+// Execute the workflow
+const result = await flow.execute({ email: 'user@example.com' });
+console.log(result.success); // true
+console.log(result.data); // { isValid: true, processed: true }
 ```
 
-### CLI Usage
+## 🔗 Framework Integration
 
-```bash
-# Start server
-npx flow-engine start --port 3000
+### Express.js Integration
 
-# Development mode with live reload
-npx flow-engine dev --watch --debug
-
-# Live monitoring dashboard
-npx flow-engine monitor
-
-# Generate flows from existing code (coming soon)
-npx flow-engine generate --input ./src/controllers --output ./flows
-```
-
-## 🎯 What is Flow Engine?
-
-Flow Engine is a **revolutionary backend framework** that replaces traditional controller-based architectures with **workflow orchestration**. Instead of writing separate controller methods, you define **flows** that orchestrate complex business processes efficiently.
-
-### Traditional Controller Approach ❌
 ```typescript
-class UserController {
-  async createUser(req, res) {
-    // Validate input
-    // Check if user exists
-    // Hash password
-    // Save to database
+import express from 'express';
+import { createFlow, expressFlow } from 'flow-engine';
+
+const app = express();
+app.use(express.json());
+
+// Create user registration flow
+const userFlow = createFlow()
+  .setCommonPayload({ timestamp: new Date().toISOString() })
+  .step('validate', async (data) => {
+    if (!data.email || !data.password) {
+      throw new Error('Email and password required');
+    }
+    return { isValid: true };
+  })
+  .step('createUser', async (data) => {
+    // Your user creation logic
+    const user = { id: 1, email: data.email };
+    return { user };
+  })
+  .step('sendEmail', async (data) => {
     // Send welcome email
-    // Return response
+    console.log(`Welcome email sent to ${data.user.email}`);
+    return { emailSent: true };
+  });
+
+// Use as Express middleware
+app.post('/api/users', expressFlow(userFlow), (req, res) => {
+  res.json({
+    success: true,
+    user: req.flowResult.data.user
+  });
+});
+
+app.listen(3000);
+```
+
+### Fastify Integration
+
+```typescript
+import Fastify from 'fastify';
+import { createFlow } from 'flow-engine';
+
+const fastify = Fastify();
+
+const orderFlow = createFlow()
+  .setCommonPayload({ currency: 'USD' })
+  .step('validateOrder', async (data) => {
+    if (!data.items?.length) throw new Error('No items');
+    return { valid: true };
+  })
+  .step('calculateTotal', async (data) => {
+    const total = data.items.reduce((sum, item) => sum + item.price, 0);
+    return { total };
+  })
+  .step('processPayment', async (data) => {
+    // Payment processing logic
+    return { paymentId: 'pay_123' };
+  });
+
+fastify.post('/api/orders', async (request, reply) => {
+  const result = await orderFlow.execute(request.body);
+  
+  if (result.success) {
+    return { order: result.data };
+  } else {
+    reply.code(400);
+    return { error: result.error };
   }
+});
+```
+
+### Koa Integration
+
+```typescript
+import Koa from 'koa';
+import Router from 'koa-router';
+import { createFlow } from 'flow-engine';
+
+const app = new Koa();
+const router = new Router();
+
+const authFlow = createFlow()
+  .step('validateCredentials', async (data) => {
+    if (!data.email || !data.password) {
+      throw new Error('Invalid credentials');
+    }
+    return { valid: true };
+  })
+  .step('generateToken', async (data) => {
+    const token = `jwt_${Math.random().toString(36).substr(2, 9)}`;
+    return { token };
+  });
+
+router.post('/api/auth', async (ctx) => {
+  const result = await authFlow.execute(ctx.request.body);
+  
+  if (result.success) {
+    ctx.body = { token: result.data.token };
+  } else {
+    ctx.status = 401;
+    ctx.body = { error: result.error };
+  }
+});
+```
+
+## 🛠️ Advanced Features
+
+### Middleware Support
+
+```typescript
+const flow = createFlow()
+  .setCommonPayload({ apiKey: process.env.API_KEY })
+  .use(async (data, context) => {
+    // Authentication middleware
+    if (!data.apiKey) throw new Error('Unauthorized');
+    context.metadata.userId = 'user_123';
+  })
+  .use(async (data, context) => {
+    // Logging middleware
+    console.log(`Processing request: ${context.executionId}`);
+  })
+  .step('process', async (data) => {
+    return { processed: true };
+  });
+```
+
+### Retry Logic & Timeouts
+
+```typescript
+const flow = createFlow()
+  .step('externalAPI', async (data) => {
+    // This step will retry 3 times with exponential backoff
+    const response = await fetch('https://api.example.com/data');
+    return { data: await response.json() };
+  }, { 
+    retries: 3, 
+    timeout: 10000 // 10 second timeout
+  });
+```
+
+### Step Dependencies
+
+```typescript
+const flow = createFlow()
+  .step('fetchUser', async (data) => {
+    return { user: await getUser(data.userId) };
+  })
+  .step('fetchOrders', async (data) => {
+    return { orders: await getOrders(data.user.id) };
+  }, { dependencies: ['fetchUser'] }) // This step waits for fetchUser
+  .step('calculateTotal', async (data) => {
+    const total = data.orders.reduce((sum, order) => sum + order.amount, 0);
+    return { total };
+  }, { dependencies: ['fetchOrders'] });
+```
+
+## 📊 Result Object
+
+Every flow execution returns a detailed result:
+
+```typescript
+interface FlowResult {
+  success: boolean;           // Whether the flow completed successfully
+  data: any;                 // All data from all steps
+  error?: string;            // Error message if failed
+  executionTime: number;      // Total execution time in ms
+  steps: string[];           // Array of executed step IDs
+  metadata: Record<string, any>; // Custom metadata
+}
+
+// Example result
+{
+  success: true,
+  data: {
+    email: 'user@example.com',
+    isValid: true,
+    user: { id: 1, email: 'user@example.com' },
+    emailSent: true
+  },
+  executionTime: 245,
+  steps: ['validate', 'createUser', 'sendEmail'],
+  metadata: { requestId: 'exec_123', userId: 'user_123' }
 }
 ```
 
-### Flow Engine Approach ✅
-```typescript
-const UserRegistrationFlow = {
-  id: 'user-registration',
-  nodes: [
-    { id: 'validate', type: 'validation', ... },
-    { id: 'check_email', type: 'database_query', ... },
-    { id: 'hash_password', type: 'transform', ... },
-    { id: 'create_user', type: 'database_query', ... },
-    { id: 'send_email', type: 'email', ... }
-  ],
-  edges: [
-    { source: 'validate', target: 'check_email' },
-    { source: 'check_email', target: 'hash_password' },
-    // ... more connections
-  ]
-};
-```
-
-## 🏗️ Architecture
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Flow Engine                          │
-├─────────────────────────────────────────────────────────┤
-│  🌊 FlowEngine     📊 LiveMonitor    💾 MemoryManager   │
-│  ⚡ TaskExecutor   🗄️ FlowCache      📝 FlowLogger      │
-├─────────────────────────────────────────────────────────┤
-│  🖥️ FlowServer    📡 WebSocket      🎯 LiveDashboard  │
-│  🛣️ FlowRoutes    🔧 Middleware     📈 Real-time UI    │
-└─────────────────────────────────────────────────────────┘
-```
-
-## 🚀 Getting Started
-
-### 1. Create a Flow
-
-```typescript
-import { FlowDefinition } from 'flow-engine';
-
-const UserRegistrationFlow: FlowDefinition = {
-  id: 'user-registration',
-  name: 'User Registration Flow',
-  description: 'Complete user registration process',
-  startNode: 'validate_input',
-  nodes: [
-    {
-      id: 'validate_input',
-      type: 'validation',
-      label: 'Validate Input',
-      config: {
-        rules: [
-          { field: 'name', operator: 'required', message: 'Name is required' },
-          { field: 'email', operator: 'email', message: 'Invalid email' },
-          { field: 'password', operator: 'min_length', value: 8, message: 'Password too short' }
-        ]
-      }
-    },
-    {
-      id: 'create_user',
-      type: 'database_query',
-      label: 'Create User',
-      config: {
-        query: 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-        params: ['$name', '$email', '$hashedPassword']
-      }
-    }
-  ],
-  edges: [
-    {
-      id: 'validate_to_create',
-      source: 'validate_input',
-      target: 'create_user',
-      label: 'Validation passed'
-    }
-  ]
-};
-```
-
-### 2. Register and Execute
-
-```typescript
-import { FlowEngine } from 'flow-engine';
-
-const engine = new FlowEngine();
-
-// Register flow
-await engine.registerFlow(UserRegistrationFlow);
-
-// Execute flow
-const result = await engine.executeFlow('user-registration', {
-  name: 'John Doe',
-  email: 'john@example.com',
-  password: 'password123'
-});
-
-console.log(result.output); // { success: true, user: {...} }
-```
-
-### 3. Start Server
-
-```typescript
-import { FlowServer } from 'flow-engine';
-
-const server = new FlowServer();
-await server.start(3000);
-
-// Access live dashboard at http://localhost:3000/dashboard
-```
-
-## 📊 Live Monitoring
-
-Flow Engine provides **beautiful real-time monitoring** with:
-
-### 🎯 Live Dashboard
-- **Real-time metrics** - Memory usage, CPU, active connections
-- **Performance analytics** - Success rate, execution time, error rate
-- **Active flows** - Live view of running workflows
-- **Recent executions** - Execution history with details
-- **WebSocket updates** - Real-time data streaming
-
-### 📈 Monitoring Features
-- **System Metrics** - Memory, CPU, connections
-- **Flow Analytics** - Execution times, success rates
-- **Live Logs** - Real-time log streaming
-- **Performance Tracking** - Memory usage, cache hits
-- **Error Monitoring** - Failed executions, error rates
-
-## 🎨 Beautiful CLI
-
-```bash
-🌊 Flow Engine
-┌─────────────────────────────────────────────────────────┐
-│ 🚀 Revolutionary workflow-based backend framework      │
-│ Replace traditional controllers with efficient         │
-│ workflow orchestration                                 │
-│ ✨ Memory-efficient • High-performance • Live monitoring │
-└─────────────────────────────────────────────────────────┘
-
-🚀 Flow Engine server started successfully!
-
-🌊 Flow Engine is running:
-   📊 Dashboard: http://localhost:3000/dashboard
-   🔗 API Base: http://localhost:3000/api
-   📡 WebSocket: ws://localhost:3000
-   ❤️  Health: http://localhost:3000/health
-```
-
-## 🔧 Configuration
-
-### Environment Variables
-
-```bash
-# Server Configuration
-PORT=3000
-HOST=0.0.0.0
-NODE_ENV=development
-
-# Logging
-LOG_LEVEL=info
-CORS_ORIGIN=*
-
-# Memory Management
-MAX_MEMORY=1073741824  # 1GB
-MEMORY_THRESHOLD=0.8   # 80%
-
-# Cache Configuration
-CACHE_MAX_SIZE=1000
-CACHE_TTL=300000       # 5 minutes
-```
-
-### Flow Configuration
-
-```typescript
-const flowConfig = {
-  timeout: 30000,        // 30 seconds
-  retries: 3,           // 3 retries
-  memoryLimit: 1000000, // 1MB
-  cacheEnabled: true,   // Enable caching
-  parallel: false       // Sequential execution
-};
-```
-
-## 🚀 Performance Benefits
-
-### Memory Efficiency
-- **50% less memory usage** than traditional controllers
-- **Intelligent caching** with LRU eviction
-- **Memory pooling** for optimal resource usage
-- **Automatic cleanup** of unused resources
-
-### High Performance
-- **3x faster execution** with parallel processing
-- **Better CPU utilization** with worker threads
-- **Intelligent caching** reduces redundant operations
-- **Real-time monitoring** for performance optimization
-
-### Scalability
-- **Horizontal scaling** with multiple instances
-- **Load balancing** across workflow nodes
-- **Auto-scaling** based on memory and CPU usage
-- **Distributed caching** for high availability
-
-## 📚 Examples
+## 🎯 Real-World Examples
 
 ### E-commerce Order Processing
 
 ```typescript
-const OrderProcessingFlow = {
-  id: 'order-processing',
-  nodes: [
-    { id: 'validate_order', type: 'validation', ... },
-    { id: 'check_inventory', type: 'database_query', ... },
-    { id: 'calculate_total', type: 'transform', ... },
-    { id: 'process_payment', type: 'external_service', ... },
-    { id: 'update_inventory', type: 'database_query', ... },
-    { id: 'create_order', type: 'database_query', ... },
-    { id: 'send_confirmation', type: 'email', ... }
-  ],
-  edges: [
-    { source: 'validate_order', target: 'check_inventory' },
-    { source: 'check_inventory', target: 'calculate_total' },
-    { source: 'calculate_total', target: 'process_payment' },
-    { source: 'process_payment', target: 'update_inventory' },
-    { source: 'update_inventory', target: 'create_order' },
-    { source: 'create_order', target: 'send_confirmation' }
-  ]
-};
+const orderFlow = createFlow()
+  .setCommonPayload({ 
+    currency: 'USD',
+    taxRate: 0.08,
+    shippingRate: 5.99
+  })
+  .step('validateOrder', async (data) => {
+    if (!data.items?.length) throw new Error('No items in order');
+    if (!data.customerId) throw new Error('Customer ID required');
+    return { orderValid: true };
+  })
+  .step('checkInventory', async (data) => {
+    for (const item of data.items) {
+      const available = await checkStock(item.productId);
+      if (available < item.quantity) {
+        throw new Error(`Insufficient stock for ${item.productId}`);
+      }
+    }
+    return { inventoryChecked: true };
+  })
+  .step('calculatePricing', async (data) => {
+    const subtotal = data.items.reduce((sum, item) => sum + item.price, 0);
+    const tax = subtotal * data.taxRate;
+    const shipping = subtotal > 50 ? 0 : data.shippingRate;
+    const total = subtotal + tax + shipping;
+    
+    return { subtotal, tax, shipping, total };
+  })
+  .step('processPayment', async (data) => {
+    const payment = await stripe.charges.create({
+      amount: Math.round(data.total * 100),
+      currency: data.currency,
+      source: data.paymentToken
+    });
+    return { paymentId: payment.id };
+  })
+  .step('createOrder', async (data) => {
+    const order = await db.orders.create({
+      customerId: data.customerId,
+      items: data.items,
+      total: data.total,
+      paymentId: data.paymentId,
+      status: 'confirmed'
+    });
+    return { order };
+  })
+  .step('sendConfirmation', async (data) => {
+    await emailService.send({
+      to: data.customer.email,
+      template: 'order-confirmation',
+      data: { order: data.order }
+    });
+    return { emailSent: true };
+  });
+
+// Use in Express route
+app.post('/api/orders', expressFlow(orderFlow), (req, res) => {
+  res.json({ order: req.flowResult.data.order });
+});
 ```
 
-### User Authentication
+### User Authentication & Authorization
 
 ```typescript
-const UserAuthFlow = {
-  id: 'user-auth',
-  nodes: [
-    { id: 'validate_credentials', type: 'validation', ... },
-    { id: 'check_user_exists', type: 'database_query', ... },
-    { id: 'verify_password', type: 'transform', ... },
-    { id: 'generate_token', type: 'transform', ... },
-    { id: 'update_last_login', type: 'database_query', ... }
-  ],
-  edges: [
-    { source: 'validate_credentials', target: 'check_user_exists' },
-    { source: 'check_user_exists', target: 'verify_password' },
-    { source: 'verify_password', target: 'generate_token' },
-    { source: 'generate_token', target: 'update_last_login' }
-  ]
-};
+const authFlow = createFlow()
+  .setCommonPayload({ 
+    jwtSecret: process.env.JWT_SECRET,
+    tokenExpiry: '24h'
+  })
+  .step('validateCredentials', async (data) => {
+    if (!data.email || !data.password) {
+      throw new Error('Email and password required');
+    }
+    return { credentialsValid: true };
+  })
+  .step('findUser', async (data) => {
+    const user = await db.users.findOne({ email: data.email });
+    if (!user) throw new Error('User not found');
+    return { user };
+  })
+  .step('verifyPassword', async (data) => {
+    const isValid = await bcrypt.compare(data.password, data.user.passwordHash);
+    if (!isValid) throw new Error('Invalid password');
+    return { passwordValid: true };
+  })
+  .step('generateTokens', async (data) => {
+    const accessToken = jwt.sign(
+      { userId: data.user.id, email: data.user.email },
+      data.jwtSecret,
+      { expiresIn: data.tokenExpiry }
+    );
+    
+    const refreshToken = jwt.sign(
+      { userId: data.user.id },
+      data.jwtSecret,
+      { expiresIn: '7d' }
+    );
+    
+    return { accessToken, refreshToken };
+  })
+  .step('updateLastLogin', async (data) => {
+    await db.users.update(data.user.id, { 
+      lastLoginAt: new Date() 
+    });
+    return { lastLoginUpdated: true };
+  });
 ```
 
-## 🛠️ Development
+## 🚀 Performance Benefits
 
-### Prerequisites
-- Node.js 18+
-- TypeScript 5+
-- npm or yarn
+- **⚡ Fast Execution** - Steps run in sequence with optimized data passing
+- **🔄 Built-in Retries** - Automatic retry with exponential backoff
+- **⏱️ Timeout Protection** - Prevent hanging operations
+- **📊 Execution Tracking** - Know exactly what happened and when
+- **💾 Memory Efficient** - Only loads data when needed
 
-### Setup
-```bash
-git clone https://github.com/flow-engine/flow-engine.git
-cd flow-engine
-npm install
-npm run build
-```
+## 🔧 API Reference
 
-### Development Commands
-```bash
-npm run dev          # Start in development mode
-npm run build        # Build the project
-npm run test         # Run tests
-npm run lint         # Run linter
-npm run clean        # Clean build files
-```
+### createFlow()
+Creates a new workflow instance.
 
-## 📖 API Reference
-
-### FlowEngine
 ```typescript
-class FlowEngine {
-  async registerFlow(definition: FlowDefinition): Promise<void>
-  async executeFlow(flowId: string, input: any, context?: FlowContext): Promise<FlowResult>
-  getActiveFlows(): FlowInstance[]
-  getStatistics(): FlowStatistics
-  getLiveData(): LiveMonitoringData
-}
+const flow = createFlow();
 ```
 
-### FlowServer
+### .setCommonPayload(payload)
+Sets data available to all steps.
+
 ```typescript
-class FlowServer {
-  async start(port: number, host: string): Promise<void>
-  async stop(): Promise<void>
-  getApp(): express.Application
-  getEngine(): FlowEngine
-}
+flow.setCommonPayload({ apiKey: 'your-key', version: '1.0' });
+```
+
+### .use(middleware)
+Adds middleware that runs before each step.
+
+```typescript
+flow.use(async (data, context) => {
+  console.log(`Executing step with data:`, data);
+});
+```
+
+### .step(id, handler, options?)
+Adds a step to the workflow.
+
+```typescript
+flow.step('process', async (data) => {
+  return { processed: true };
+}, { retries: 3, timeout: 5000 });
+```
+
+### .execute(inputData)
+Executes the workflow with input data.
+
+```typescript
+const result = await flow.execute({ email: 'user@example.com' });
 ```
 
 ## 🤝 Contributing
@@ -376,14 +412,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- Built with ❤️ by the Flow Engine team
-- Inspired by modern workflow orchestration patterns
-- Powered by Node.js and TypeScript
-
 ---
 
-**🌊 Flow Engine** - *Revolutionary workflow-based backend framework*
+**🌊 Flow Engine** - *Simple workflow framework for Node.js backends*
 
 [Website](https://flow-engine.dev) • [Documentation](https://docs.flow-engine.dev) • [GitHub](https://github.com/flow-engine/flow-engine) • [Discord](https://discord.gg/flow-engine)
