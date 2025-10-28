@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://flow-engine.github.io/universal-workflow-generator/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow certain paths (if any)
+# Disallow: /private/
+# Disallow: /admin/

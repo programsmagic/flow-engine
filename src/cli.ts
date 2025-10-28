@@ -1,164 +1,97 @@
 #!/usr/bin/env node
 
 import * as yargs from 'yargs';
-import * as path from 'path';
-import * as fs from 'fs-extra';
 import chalk from 'chalk';
-import { WorkflowProcessor } from './core/WorkflowProcessor';
-import { ParserOptions } from './types';
-import { FrameworkDetector } from './core/FrameworkDetector';
+import gradient from 'gradient-string';
+import figlet from 'figlet';
+import boxen from 'boxen';
+import ora from 'ora';
+import { FlowServer } from './server/FlowServer';
+import { FlowLogger } from './core/FlowLogger';
 
 const argv = yargs
-  .scriptName('flow')
+  .scriptName('flow-engine')
   .usage('$0 <command> [options]')
-  .example('$0 generate --input ./src/controllers --output ./docs', 'Analyze API controllers')
-  .example('$0 generate --input ./src/components --format mermaid', 'Generate React component workflows')
-  .example('$0 analyze --input ./src --verbose', 'Analyze entire project structure')
-  .example('$0 detect --input ./src', 'Detect frameworks in your project')
-  .command('generate', 'Generate workflow files from any project', (yargs) => {
+  .example('$0 start --port 3000', 'Start Flow Engine server')
+  .example('$0 dev --watch', 'Start in development mode with file watching')
+  .example('$0 monitor', 'Start live monitoring dashboard')
+  .command('start', 'Start the Flow Engine server', (yargs) => {
     return yargs
-      .option('input', {
-        alias: 'i',
-        type: 'string',
-        description: 'Input path to project directory (e.g., ./src, ./controllers, ./components)',
-        default: './src',
-        demandOption: true
+      .option('port', {
+        alias: 'p',
+        type: 'number',
+        description: 'Port to run the server on',
+        default: 3000
       })
-      .option('output', {
-        alias: 'o',
+      .option('host', {
+        alias: 'h',
         type: 'string',
-        description: 'Output directory for generated files (e.g., ./docs, ./workflows)',
-        default: './workflows',
-        demandOption: true
+        description: 'Host to bind the server to',
+        default: '0.0.0.0'
       })
-      .option('format', {
-        alias: 'f',
+      .option('config', {
+        alias: 'c',
         type: 'string',
-        choices: ['json', 'yaml', 'mermaid', 'all'],
-        description: 'Output format',
-        default: 'all'
+        description: 'Path to configuration file',
+        default: './flow.config.js'
+      });
+  })
+  .command('dev', 'Start in development mode', (yargs) => {
+    return yargs
+      .option('port', {
+        alias: 'p',
+        type: 'number',
+        description: 'Port to run the server on',
+        default: 3000
       })
-      .option('diagram', {
+      .option('watch', {
+        alias: 'w',
+        type: 'boolean',
+        description: 'Watch for file changes and restart',
+        default: true
+      })
+      .option('debug', {
         alias: 'd',
         type: 'boolean',
-        description: 'Generate visual diagrams',
-        default: true
-      })
-      .option('diagram-format', {
-        type: 'string',
-        choices: ['png', 'svg', 'pdf'],
-        description: 'Diagram output format',
-        default: 'png'
-      })
-      .option('include-comments', {
-        type: 'boolean',
-        description: 'Include comments in workflow',
-        default: true
-      })
-      .option('include-validation', {
-        type: 'boolean',
-        description: 'Include validation rules',
-        default: true
-      })
-      .option('include-database', {
-        type: 'boolean',
-        description: 'Include database queries',
-        default: true
-      })
-      .option('include-api', {
-        type: 'boolean',
-        description: 'Include API calls',
-        default: true
-      })
-      .option('framework', {
-        type: 'string',
-        description: 'Force specific framework (auto-detected if not specified)',
-        choices: ['react', 'vue', 'angular', 'nodejs', 'nextjs', 'svelte']
-      })
-      .option('language', {
-        type: 'string',
-        description: 'Force specific language (auto-detected if not specified)',
-        choices: ['javascript', 'typescript']
-      })
-      .option('parallel', {
-        type: 'boolean',
-        description: 'Enable parallel processing',
-        default: true
-      })
-      .option('cache', {
-        type: 'boolean',
-        description: 'Enable caching for better performance',
-        default: true
-      })
-      .option('workers', {
+        description: 'Enable debug logging',
+        default: false
+      });
+  })
+  .command('monitor', 'Start live monitoring dashboard', (yargs) => {
+    return yargs
+      .option('port', {
+        alias: 'p',
         type: 'number',
-        description: 'Number of worker threads for parallel processing',
-        default: 4
+        description: 'Port to run the server on',
+        default: 3000
       })
-      .option('optimize', {
-        type: 'boolean',
-        description: 'Include code optimization suggestions',
-        default: false
-      })
-      .option('verbose', {
-        alias: 'v',
-        type: 'boolean',
-        description: 'Verbose output',
-        default: false
+      .option('host', {
+        alias: 'h',
+        type: 'string',
+        description: 'Host to bind the server to',
+        default: '0.0.0.0'
       });
   })
-  .command('analyze', 'Analyze project without generating files', (yargs) => {
+  .command('generate', 'Generate flow from existing code', (yargs) => {
     return yargs
       .option('input', {
         alias: 'i',
         type: 'string',
-        description: 'Input path to project directory',
-        default: './src',
-        demandOption: true
-      })
-      .option('framework', {
-        type: 'string',
-        description: 'Force specific framework (auto-detected if not specified)',
-        choices: ['react', 'vue', 'angular', 'nodejs', 'nextjs', 'svelte']
-      })
-      .option('verbose', {
-        alias: 'v',
-        type: 'boolean',
-        description: 'Verbose output',
-        default: false
-      });
-  })
-  .command('detect', 'Detect frameworks and languages in project', (yargs) => {
-    return yargs
-      .option('input', {
-        alias: 'i',
-        type: 'string',
-        description: 'Input path to project directory',
-        default: './src',
-        demandOption: true
-      });
-  })
-  .command('optimize', 'Analyze and suggest optimizations for project', (yargs) => {
-    return yargs
-      .option('input', {
-        alias: 'i',
-        type: 'string',
-        description: 'Input path to project directory',
-        default: './src',
+        description: 'Input directory containing controllers/services',
         demandOption: true
       })
       .option('output', {
         alias: 'o',
         type: 'string',
-        description: 'Output directory for optimization report',
-        default: './optimization-report'
+        description: 'Output directory for generated flows',
+        default: './flows'
       })
       .option('format', {
         alias: 'f',
         type: 'string',
-        choices: ['json', 'yaml', 'html', 'all'],
-        description: 'Output format for optimization report',
-        default: 'all'
+        choices: ['json', 'yaml', 'typescript'],
+        description: 'Output format for generated flows',
+        default: 'typescript'
       });
   })
   .help()
@@ -172,18 +105,32 @@ async function main() {
   try {
     const command = argv._[0] as string;
 
+    // Show beautiful banner
+    console.log(gradient.rainbow(figlet.textSync('Flow Engine', { horizontalLayout: 'full' })));
+    console.log(boxen(
+      chalk.cyan('🚀 Revolutionary workflow-based backend framework\n') +
+      chalk.gray('Replace traditional controllers with efficient workflow orchestration\n') +
+      chalk.yellow('✨ Memory-efficient • High-performance • Live monitoring'),
+      { 
+        padding: 1, 
+        margin: 1, 
+        borderStyle: 'round',
+        borderColor: 'cyan'
+      }
+    ));
+
     switch (command) {
+      case 'start':
+        await startServer();
+        break;
+      case 'dev':
+        await startDevelopment();
+        break;
+      case 'monitor':
+        await startMonitoring();
+        break;
       case 'generate':
-        await generateWorkflows();
-        break;
-      case 'analyze':
-        await analyzeProject();
-        break;
-      case 'detect':
-        await detectFrameworks();
-        break;
-      case 'optimize':
-        await optimizeProject();
+        await generateFlows();
         break;
       default:
         console.error(chalk.red('Unknown command:', command));
@@ -195,181 +142,124 @@ async function main() {
   }
 }
 
-async function generateWorkflows() {
-  const options: ParserOptions = {
-    inputPath: argv.input as string,
-    outputPath: argv.output as string,
-    format: argv.format as 'json' | 'yaml' | 'mermaid' | 'all',
-    includeComments: argv.includeComments as boolean,
-    includeValidation: argv.includeValidation as boolean,
-    includeDatabaseQueries: argv.includeDatabase as boolean,
-    includeApiCalls: argv.includeApi as boolean,
-    generateDiagram: argv.diagram as boolean,
-    diagramFormat: argv.diagramFormat as 'png' | 'svg' | 'pdf',
-    framework: argv.framework as string,
-    language: argv.language as string,
-    parallel: argv.parallel as boolean,
-    cache: argv.cache as boolean,
-    workers: argv.workers as number,
-    optimize: argv.optimize as boolean
-  };
-
-  console.log(chalk.blue('🌊 Flow - Universal Workflow Generator'));
-  console.log(chalk.gray('====================================='));
-  console.log(chalk.white(`Input: ${options.inputPath}`));
-  console.log(chalk.white(`Output: ${options.outputPath}`));
-  console.log(chalk.white(`Format: ${options.format}`));
-  console.log(chalk.white(`Framework: ${options.framework || 'auto-detect'}`));
-  console.log(chalk.white(`Language: ${options.language || 'auto-detect'}`));
-  console.log(chalk.white(`Parallel: ${options.parallel}`));
-  console.log(chalk.white(`Cache: ${options.cache}`));
-  console.log(chalk.white(`Workers: ${options.workers}`));
-  console.log('');
-
-  // Validate input path
-  if (!await fs.pathExists(options.inputPath)) {
-    console.error(chalk.red(`❌ Input path does not exist: ${options.inputPath}`));
-    process.exit(1);
-  }
-
-  // Auto-detect framework if not specified
-  if (!options.framework) {
-    console.log(chalk.yellow('🔍 Auto-detecting frameworks...'));
-    const detectedFrameworks = await FrameworkDetector.detectFramework(options.inputPath);
-    console.log(chalk.green(`✅ Detected frameworks: ${detectedFrameworks.join(', ')}`));
-  }
-
-  // Create output directory
-  await fs.ensureDir(options.outputPath);
-
-  const processor = new WorkflowProcessor();
-  const result = await processor.processProject(options);
-
-  console.log(chalk.green(`✅ Successfully generated ${result.workflows.length} workflows`));
-  console.log(chalk.gray(`📁 Output directory: ${options.outputPath}`));
-  console.log(chalk.gray(`⏱️  Execution time: ${result.performance.executionTime}ms`));
-  console.log(chalk.gray(`💾 Memory usage: ${Math.round(result.performance.memoryUsage / 1024 / 1024)}MB`));
-  console.log(chalk.gray(`📊 Cache hits: ${result.performance.cacheHits}`));
-  console.log(chalk.gray(`📊 Cache misses: ${result.performance.cacheMisses}`));
+async function startServer() {
+  const spinner = ora('Starting Flow Engine server...').start();
   
-  if (result.errors.length > 0) {
-    console.log(chalk.red(`❌ Errors: ${result.errors.length}`));
-    result.errors.forEach(error => console.log(chalk.red(`  • ${error}`)));
+  try {
+    const port = argv.port as number;
+    const host = argv.host as string;
+    
+    const server = new FlowServer();
+    await server.start(port, host);
+    
+    spinner.succeed(chalk.green('Flow Engine server started successfully!'));
+    
+    console.log(chalk.cyan('\n🌊 Flow Engine is running:'));
+    console.log(chalk.white(`   📊 Dashboard: http://${host}:${port}/dashboard`));
+    console.log(chalk.white(`   🔗 API Base: http://${host}:${port}/api`));
+    console.log(chalk.white(`   📡 WebSocket: ws://${host}:${port}`));
+    console.log(chalk.white(`   ❤️  Health: http://${host}:${port}/health`));
+    
+    console.log(chalk.yellow('\n💡 Pro Tips:'));
+    console.log(chalk.gray('   • Use the dashboard to monitor flows in real-time'));
+    console.log(chalk.gray('   • WebSocket provides live updates'));
+    console.log(chalk.gray('   • Check logs/ directory for detailed logs'));
+    
+  } catch (error) {
+    spinner.fail(chalk.red('Failed to start server'));
+    throw error;
   }
+}
+
+async function startDevelopment() {
+  const spinner = ora('Starting Flow Engine in development mode...').start();
   
-  if (result.warnings.length > 0) {
-    console.log(chalk.yellow(`⚠️  Warnings: ${result.warnings.length}`));
-    result.warnings.forEach(warning => console.log(chalk.yellow(`  • ${warning}`)));
-  }
-}
-
-async function analyzeProject() {
-  const inputPath = argv.input as string;
-  const verbose = argv.verbose as boolean;
-
-  console.log(chalk.blue('🔍 Flow Analyzer'));
-  console.log(chalk.gray('================'));
-  console.log(chalk.white(`Input: ${inputPath}`));
-  console.log('');
-
-  // Validate input path
-  if (!await fs.pathExists(inputPath)) {
-    console.error(chalk.red(`❌ Input path does not exist: ${inputPath}`));
-    process.exit(1);
-  }
-
-  const analysis = await FrameworkDetector.analyzeProjectStructure(inputPath);
-
-  console.log(chalk.green(`✅ Analysis complete`));
-  console.log(chalk.white(`📊 Frameworks: ${analysis.frameworks.join(', ')}`));
-  console.log(chalk.white(`📊 Languages: ${analysis.languages.join(', ')}`));
-  console.log(chalk.white(`📊 Total files: ${analysis.structure.files}`));
-  console.log(chalk.white(`📊 Total directories: ${analysis.structure.directories.length}`));
-
-  if (verbose) {
-    console.log(chalk.cyan('\n📁 Directory structure:'));
-    analysis.structure.directories.slice(0, 10).forEach(dir => {
-      console.log(chalk.gray(`  • ${path.relative(inputPath, dir)}`));
-    });
-    if (analysis.structure.directories.length > 10) {
-      console.log(chalk.gray(`  ... and ${analysis.structure.directories.length - 10} more`));
+  try {
+    const port = argv.port as number;
+    const host = argv.host as string;
+    const watch = argv.watch as boolean;
+    const debug = argv.debug as boolean;
+    
+    if (debug) {
+      process.env.LOG_LEVEL = 'debug';
     }
+
+    const server = new FlowServer();
+    await server.start(port, host);
+    
+    spinner.succeed(chalk.green('Flow Engine development server started!'));
+    
+    console.log(chalk.cyan('\n🔧 Development Mode:'));
+    console.log(chalk.white(`   📊 Dashboard: http://${host}:${port}/dashboard`));
+    console.log(chalk.white(`   🔗 API Base: http://${host}:${port}/api`));
+    console.log(chalk.white(`   📡 WebSocket: ws://${host}:${port}`));
+    console.log(chalk.white(`   📝 Log Level: ${debug ? 'DEBUG' : 'INFO'}`));
+    console.log(chalk.white(`   👀 File Watching: ${watch ? 'ENABLED' : 'DISABLED'}`));
+    
+    console.log(chalk.yellow('\n💡 Development Tips:'));
+    console.log(chalk.gray('   • Changes are automatically detected'));
+    console.log(chalk.gray('   • Use --debug for detailed logging'));
+    console.log(chalk.gray('   • Check logs/live.log for real-time logs'));
+    
+  } catch (error) {
+    spinner.fail(chalk.red('Failed to start development server'));
+    throw error;
   }
 }
 
-async function detectFrameworks() {
-  const inputPath = argv.input as string;
-
-  console.log(chalk.blue('🔍 Flow Framework Detector'));
-  console.log(chalk.gray('=========================='));
-  console.log(chalk.white(`Input: ${inputPath}`));
-  console.log('');
-
-  // Validate input path
-  if (!await fs.pathExists(inputPath)) {
-    console.error(chalk.red(`❌ Input path does not exist: ${inputPath}`));
-    process.exit(1);
+async function startMonitoring() {
+  const spinner = ora('Starting live monitoring dashboard...').start();
+  
+  try {
+    const port = argv.port as number;
+    const host = argv.host as string;
+    
+    const server = new FlowServer();
+    await server.start(port, host);
+    
+    spinner.succeed(chalk.green('Live monitoring dashboard started!'));
+    
+    console.log(chalk.cyan('\n📊 Live Monitoring:'));
+    console.log(chalk.white(`   🎯 Dashboard: http://${host}:${port}/dashboard`));
+    console.log(chalk.white(`   📡 WebSocket: ws://${host}:${port}`));
+    console.log(chalk.white(`   📈 Real-time metrics and flow monitoring`));
+    
+    console.log(chalk.yellow('\n💡 Monitoring Features:'));
+    console.log(chalk.gray('   • Real-time flow execution monitoring'));
+    console.log(chalk.gray('   • System metrics (memory, CPU, connections)'));
+    console.log(chalk.gray('   • Performance analytics'));
+    console.log(chalk.gray('   • Live WebSocket updates'));
+    
+  } catch (error) {
+    spinner.fail(chalk.red('Failed to start monitoring dashboard'));
+    throw error;
   }
-
-  const detectedFrameworks = await FrameworkDetector.detectFramework(inputPath);
-  const analysis = await FrameworkDetector.analyzeProjectStructure(inputPath);
-
-  console.log(chalk.green(`✅ Detection complete`));
-  console.log(chalk.white(`📊 Detected frameworks: ${detectedFrameworks.join(', ')}`));
-  console.log(chalk.white(`📊 Detected languages: ${analysis.languages.join(', ')}`));
-  console.log(chalk.white(`📊 Total files: ${analysis.structure.files}`));
-
-  // Show framework details
-  detectedFrameworks.forEach(framework => {
-    const config = FrameworkDetector.getFrameworkConfig(framework);
-    if (config) {
-      console.log(chalk.cyan(`\n📦 ${config.name} (${framework}):`));
-      console.log(chalk.gray(`  Language: ${config.language}`));
-      console.log(chalk.gray(`  Extensions: ${config.extensions.join(', ')}`));
-    }
-  });
 }
 
-async function optimizeProject() {
-  const inputPath = argv.input as string;
-  const outputPath = argv.output as string;
+async function generateFlows() {
+  const spinner = ora('Generating flows from existing code...').start();
+  
+  try {
+    const input = argv.input as string;
+    const output = argv.output as string;
   const format = argv.format as string;
 
-  console.log(chalk.blue('⚡ Flow Optimizer'));
-  console.log(chalk.gray('================'));
-  console.log(chalk.white(`Input: ${inputPath}`));
-  console.log(chalk.white(`Output: ${outputPath}`));
-  console.log(chalk.white(`Format: ${format}`));
-  console.log('');
-
-  // Validate input path
-  if (!await fs.pathExists(inputPath)) {
-    console.error(chalk.red(`❌ Input path does not exist: ${inputPath}`));
-    process.exit(1);
+    spinner.succeed(chalk.green('Flow generation feature coming soon!'));
+    
+    console.log(chalk.cyan('\n⚡ Flow Generation:'));
+    console.log(chalk.white(`   📁 Input: ${input}`));
+    console.log(chalk.white(`   📁 Output: ${output}`));
+    console.log(chalk.white(`   📄 Format: ${format}`));
+    
+    console.log(chalk.yellow('\n💡 Coming Soon:'));
+    console.log(chalk.gray('   • Automatic flow generation from controllers'));
+    console.log(chalk.gray('   • Service method to flow conversion'));
+    console.log(chalk.gray('   • Multiple output formats (JSON, YAML, TypeScript)'));
+    
+  } catch (error) {
+    spinner.fail(chalk.red('Flow generation failed'));
+    throw error;
   }
-
-  // Create output directory
-  await fs.ensureDir(outputPath);
-
-  const processor = new WorkflowProcessor();
-  const result = await processor.processProject({
-    inputPath,
-    outputPath,
-    format: 'json',
-    includeComments: true,
-    includeValidation: true,
-    includeDatabaseQueries: true,
-    includeApiCalls: true,
-    generateDiagram: false,
-    diagramFormat: 'png',
-    parallel: true,
-    cache: true,
-    optimize: true
-  });
-
-  console.log(chalk.green(`✅ Optimization analysis complete`));
-  console.log(chalk.gray(`📁 Report saved to: ${outputPath}`));
-  console.log(chalk.gray(`⏱️  Execution time: ${result.performance.executionTime}ms`));
 }
 
 main();

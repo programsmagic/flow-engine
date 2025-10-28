@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2020",
     "module": "commonjs",
-    "lib": ["ES2022"],
+    "lib": ["ES2020"],
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
@@ -14,28 +14,17 @@
     "sourceMap": true,
     "removeComments": false,
     "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    "allowUnusedLabels": false,
-    "allowUnreachableCode": false,
+    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "baseUrl": "./src",
-    "paths": {
-      "@/*": ["*"],
-      "@core/*": ["core/*"],
-      "@parsers/*": ["parsers/*"],
-      "@generators/*": ["generators/*"],
-      "@types/*": ["types/*"],
-      "@utils/*": ["utils/*"]
-    }
+    "moduleResolution": "node"
   },
   "include": [
     "src/**/*"

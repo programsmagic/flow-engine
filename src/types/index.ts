@@ -1,233 +1,158 @@
-// Universal types for any framework/language
+/**
+ * Core types for Flow Engine
+ */
 
-export interface UniversalMethod {
-  name: string;
-  visibility: 'public' | 'private' | 'protected' | 'export' | 'default';
-  parameters: MethodParameter[];
-  returnType?: string;
-  body: string;
-  dependencies: string[];
-  validationRules: ValidationRule[];
-  databaseQueries: DatabaseQuery[];
-  apiCalls: ApiCall[];
-  conditions: Condition[];
-  loops: Loop[];
-  comments: string[];
-  lineNumber: number;
-  endLineNumber: number;
-  decorators: Decorator[];
-  hooks: Hook[];
-  lifecycle: LifecycleEvent[];
-}
-
-export interface MethodParameter {
-  name: string;
-  type?: string;
-  defaultValue?: string;
-  isRequired: boolean;
-  isOptional?: boolean;
-  isRest?: boolean;
-  isDestructured?: boolean;
-}
-
-export interface ValidationRule {
-  field: string;
-  rules: string[];
-  message?: string;
-  framework: string;
-}
-
-export interface DatabaseQuery {
-  type: 'select' | 'insert' | 'update' | 'delete' | 'raw' | 'aggregate';
-  table: string;
-  conditions?: string[];
-  fields?: string[];
-  rawQuery?: string;
-  framework: string;
-  orm?: string;
-}
-
-export interface ApiCall {
-  url: string;
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
-  headers?: Record<string, string>;
-  body?: any;
-  framework: string;
-  library?: string;
-}
-
-export interface Condition {
-  type: 'if' | 'elseif' | 'else' | 'switch' | 'case' | 'ternary';
-  condition: string;
-  nestedConditions?: Condition[];
-  framework: string;
-}
-
-export interface Loop {
-  type: 'for' | 'foreach' | 'while' | 'do-while' | 'map' | 'filter' | 'reduce';
-  condition: string;
-  variable?: string;
-  framework: string;
-}
-
-export interface Decorator {
-  name: string;
-  parameters?: any[];
-  framework: string;
-}
-
-export interface Hook {
-  name: string;
-  type: 'useEffect' | 'useState' | 'useCallback' | 'useMemo' | 'useRef' | 'custom';
-  dependencies?: string[];
-  framework: string;
-}
-
-export interface LifecycleEvent {
-  name: string;
-  type: 'mount' | 'unmount' | 'update' | 'error' | 'custom';
-  framework: string;
-}
-
-export interface WorkflowNode {
+export interface FlowDefinition {
   id: string;
-  type: 'start' | 'end' | 'process' | 'decision' | 'database' | 'api' | 'validation' | 'loop' | 'condition' | 'hook' | 'lifecycle' | 'decorator';
-  label: string;
-  description?: string;
-  data?: any;
-  position?: { x: number; y: number };
-  framework?: string;
-  category?: string;
+  name: string;
+  description: string;
+  version: string;
+  startNode: string;
+  nodes: FlowNode[];
+  edges: FlowEdge[];
+  config?: FlowConfig;
 }
 
-export interface WorkflowEdge {
+export interface FlowNode {
+  id: string;
+  type: string;
+  label: string;
+  description: string;
+  config?: any;
+  position?: { x: number; y: number };
+}
+
+export interface FlowEdge {
   id: string;
   source: string;
   target: string;
   label?: string;
   condition?: string;
-  type?: 'success' | 'error' | 'conditional' | 'default' | 'async' | 'sync';
-  framework?: string;
 }
 
-export interface Workflow {
+export interface FlowInstance {
   id: string;
-  name: string;
-  description: string;
-  component: string;
-  method: string;
-  framework: string;
-  nodes: WorkflowNode[];
-  edges: WorkflowEdge[];
-  metadata: {
-    createdAt: string;
-    updatedAt: string;
-    version: string;
-    tags: string[];
-    framework: string;
-    language: string;
-    complexity: 'low' | 'medium' | 'high';
-    performance: PerformanceMetrics;
-  };
+  flowId: string;
+  status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+  startTime: number;
+  endTime?: number;
+  input: any;
+  context: FlowContext;
+  currentNode?: string;
+  variables: Record<string, any>;
+  memoryUsage: number;
 }
 
-export interface PerformanceMetrics {
-  cyclomaticComplexity: number;
-  linesOfCode: number;
-  dependencies: number;
-  apiCalls: number;
-  databaseQueries: number;
-  estimatedExecutionTime?: string;
+export interface FlowContext {
+  executionId: string;
+  flowId: string;
+  nodeId: string;
+  variables: Record<string, any>;
+  input: any;
+  config: any;
+  memory: number;
 }
 
-export interface ParserOptions {
-  inputPath: string;
-  outputPath: string;
-  format: 'json' | 'yaml' | 'mermaid' | 'all';
-  includeComments: boolean;
-  includeValidation: boolean;
-  includeDatabaseQueries: boolean;
-  includeApiCalls: boolean;
-  generateDiagram: boolean;
-  diagramFormat: 'png' | 'svg' | 'pdf';
-  framework?: string;
-  language?: string;
-  parallel: boolean;
-  cache: boolean;
-  workers?: number;
-}
-
-export interface ComponentInfo {
-  name: string;
-  namespace?: string;
-  extends?: string;
-  implements?: string[];
-  uses: string[];
-  traits?: string[];
-  methods: UniversalMethod[];
-  filePath: string;
-  framework: string;
-  language: string;
-  type: 'component' | 'controller' | 'service' | 'hook' | 'middleware' | 'util' | 'model';
-}
-
-export interface FrameworkConfig {
-  name: string;
-  language: string;
-  extensions: string[];
-  patterns: {
-    methods: RegExp;
-    classes: RegExp;
-    imports: RegExp;
-    exports: RegExp;
-    decorators: RegExp;
-    hooks: RegExp;
-  };
-  parsers: {
-    method: string;
-    class: string;
-    import: string;
-    export: string;
-  };
-  generators: {
-    workflow: string;
-    diagram: string;
-    mermaid: string;
-  };
-}
-
-export interface TaskCore {
+export interface FlowResult {
   id: string;
-  name: string;
-  type: 'parser' | 'generator' | 'analyzer' | 'optimizer';
-  framework: string;
-  language: string;
-  execute: (input: any, options?: any) => Promise<any>;
-  dependencies?: string[];
-  priority: number;
-  cache?: boolean;
+  flowId: string;
+  status: 'completed' | 'failed';
+  startTime: number;
+  endTime: number;
+  executionTime: number;
+  executionPath: string[];
+  results: any[];
+  output: Record<string, any>;
+  memoryUsage: number;
+  performance: FlowPerformance;
+}
+
+export interface FlowPerformance {
+  nodesExecuted: number;
+  memoryPeak: number;
+  cacheHits: number;
+  cacheMisses: number;
+}
+
+export interface FlowConfig {
+  timeout?: number;
+  retries?: number;
+  memoryLimit?: number;
+  cacheEnabled?: boolean;
   parallel?: boolean;
 }
 
-export interface WorkflowResult {
-  workflows: Workflow[];
-  statistics: {
-    totalComponents: number;
-    totalMethods: number;
-    frameworks: Record<string, number>;
-    languages: Record<string, number>;
-    complexity: {
-      low: number;
-      medium: number;
-      high: number;
-    };
+export interface FlowAPI {
+  execute(flowId: string, input: any, context?: Partial<FlowContext>): Promise<FlowResult>;
+  register(definition: FlowDefinition): Promise<void>;
+  getStatus(executionId: string): Promise<FlowInstance | null>;
+  cancel(executionId: string): Promise<boolean>;
+  getStatistics(): Promise<FlowStatistics>;
+}
+
+export interface FlowStatistics {
+  activeFlows: number;
+  completedFlows: number;
+  failedFlows: number;
+  averageExecutionTime: number;
+  memoryUsage: number;
+  cacheStats: any;
+}
+
+export interface FlowServerConfig {
+  port: number;
+  host: string;
+  cors: boolean;
+  rateLimit: {
+    windowMs: number;
+    max: number;
   };
-  performance: {
-    executionTime: number;
+  memory: {
+    maxUsage: number;
+    threshold: number;
+  };
+  cache: {
+    maxSize: number;
+    ttl: number;
+  };
+}
+
+export interface FlowRoute {
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+  path: string;
+  flowId: string;
+  middleware?: string[];
+  validation?: any;
+}
+
+export interface FlowMiddleware {
+  name: string;
+  handler: (req: any, res: any, next: any) => void;
+}
+
+export interface FlowError {
+  code: string;
+  message: string;
+  details?: any;
+  timestamp: number;
+  executionId?: string;
+  flowId?: string;
+  nodeId?: string;
+}
+
+export interface LiveMonitoringData {
+  activeFlows: FlowInstance[];
+  recentExecutions: FlowResult[];
+  systemMetrics: {
     memoryUsage: number;
-    cacheHits: number;
-    cacheMisses: number;
+    cpuUsage: number;
+    activeConnections: number;
   };
-  errors: string[];
-  warnings: string[];
+  performanceMetrics: {
+    averageExecutionTime: number;
+    successRate: number;
+    errorRate: number;
+  };
+  timestamp: string;
+  uptime: number;
 }
