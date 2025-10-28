@@ -1,6 +1,6 @@
 {
   "name": "@programsmagic/flow-engine",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "🌊 Simple workflow framework for Node.js backends - Easy integration with Express, Fastify, Koa",
   "main": "dist/index.js",
   "bin": {
