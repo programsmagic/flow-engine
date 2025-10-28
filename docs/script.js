@@ -74,24 +74,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Simple syntax highlighting for code blocks
 function highlightCodeBlocks() {
-  const codeBlocks = document.querySelectorAll('pre code');
-  
-  codeBlocks.forEach(block => {
-    let code = block.textContent;
-    
-    // JavaScript/TypeScript highlighting
-    if (code.includes('import') || code.includes('const') || code.includes('async')) {
-      code = code
-        .replace(/\b(import|export|from|const|let|var|function|async|await|return|if|else|for|while|class|interface|type)\b/g, '<span class="keyword">$1</span>')
-        .replace(/\b(true|false|null|undefined)\b/g, '<span class="literal">$1</span>')
-        .replace(/"([^"]*)"/g, '<span class="string">"$1"</span>')
-        .replace(/'([^']*)'/g, '<span class="string">\'$1\'</span>')
-        .replace(/\b(\d+)\b/g, '<span class="number">$1</span>')
-        .replace(/(\/\/.*$)/gm, '<span class="comment">$1</span>');
-      
-      block.innerHTML = code;
-    }
-  });
+  // Disable syntax highlighting to avoid keyword replacement issues
+  // Code blocks will display as plain text with proper formatting
+  console.log('Syntax highlighting disabled for clean code display');
 }
 
 // Add scroll-to-top button
@@ -140,15 +125,9 @@ function addScrollToTop() {
   });
 }
 
-// Add CSS for syntax highlighting
+// Add CSS for scroll-to-top button
 const style = document.createElement('style');
 style.textContent = `
-  .keyword { color: #c678dd; font-weight: bold; }
-  .literal { color: #e06c75; }
-  .string { color: #98c379; }
-  .number { color: #d19a66; }
-  .comment { color: #5c6370; font-style: italic; }
-  
   .scroll-to-top:hover {
     background: var(--primary-dark);
     transform: translateY(-2px);
