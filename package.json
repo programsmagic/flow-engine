@@ -1,6 +1,6 @@
 {
   "name": "node-workflow-engine",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "🌊 Simple workflow framework for Node.js backends - Easy integration with Express, Fastify, Koa",
   "main": "dist/index.js",
   "bin": {
