@@ -42,7 +42,8 @@ function showHelp() {
 🌊 Flow Engine - Simple workflow framework for Node.js
 
 USAGE:
-  flow-engine <command>
+  node-workflow-engine <command>
+  workflow <command>
 
 COMMANDS:
   demo, examples    Run example workflows
@@ -50,10 +51,12 @@ COMMANDS:
 
 EXAMPLES:
   # Run example workflows
-  flow-engine demo
+  node-workflow-engine demo
+  workflow demo
 
   # Show help
-  flow-engine help
+  node-workflow-engine help
+  workflow help
 
 QUICK START:
   npm install node-workflow-engine
